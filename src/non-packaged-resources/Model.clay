@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<clay-model clay-version="1.4.2">
+<database-model alias="" author="" begin-script="" end-script="" name="automation" remarks="" sql-dialect-id="jp.azzurri.clay.dialect.Postgre_7_3_Dialect" uid="6756e574:14788cabb41:-8000" version="1.0">
+<database-model-description/>
+<schema-list>
+<schema alias="" name="automation" remarks="" uid="6756e574:14788cabb41:-7ffd">
+<schema-description/>
+<domain-list/>
+<table-list/>
+</schema>
+</schema-list>
+</database-model>
+</clay-model>

@@ -1,0 +1,6 @@
+database.dialect=org.hibernate.dialect.MySQLDialect
+database.driver.class=com.mysql.jdbc.Driver
+database.url=jdbc:mysql://localhost/weight
+database.username=USERNAME
+database.password=PASSWORD
+

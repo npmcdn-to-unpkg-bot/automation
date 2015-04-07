@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    
+    <preConditions>
+		<dbms type="postgresql" />
+	</preConditions>
+    
+    <changeSet author="rmjames" id="createSequence">
+	     <sql>CREATE SEQUENCE automation.seqnum INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807  START 1 CACHE 1;</sql>
+	</changeSet>
+	
+	<include file="db-create-postgres.xml" />
+	<include file="remember-me.xml" />
+
+</databaseChangeLog>
