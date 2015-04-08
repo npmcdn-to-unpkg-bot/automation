@@ -14,4 +14,6 @@ public interface WeightService extends GenericDaoInterface<Weight> {
 
 	public Weight findById( Integer id );
 
+	public Weight latest(int personId);
+
 }

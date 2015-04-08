@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.schappet.util.DataTable;
+import com.schappet.web.WeightView;
 import com.schappet.weight.domain.Weight;
 
 import edu.uiowa.icts.spring.GenericDaoListOptions;
@@ -59,6 +60,22 @@ public class WeightController extends AbstractWeightController {
     }
 
     private final SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy 'at' KK:mma");
+    
+
+    
+    @RequestMapping(value = {"latest/"})
+    @ResponseBody
+    public List<WeightView> latest() {
+    	//[ { "date": "2015-04-08 05:19:00", "value": "191.35" } ]
+    	Weight w = weightDaoService.getWeightService().latest(1);
+    	WeightView wv = new WeightView();
+    	wv.setDate(w.getWeightInDate());
+    	wv.setValue(w.getValue());
+    	List<WeightView> list = new ArrayList<WeightView>();
+    	list.add(wv);
+    	return list;
+    	
+    }
     
     @RequestMapping(value = {"record/"}, method = RequestMethod.POST)
     @ResponseBody
