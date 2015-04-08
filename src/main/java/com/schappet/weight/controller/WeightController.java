@@ -19,11 +19,14 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.NonUniqueObjectException;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +34,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.schappet.util.DataTable;
+import com.schappet.web.C3;
 import com.schappet.web.WeightView;
 import com.schappet.weight.domain.Weight;
 
@@ -60,10 +64,11 @@ public class WeightController extends AbstractWeightController {
     }
 
     private final SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy 'at' KK:mma");
+    private final SimpleDateFormat shortDate = new SimpleDateFormat("yyyy-MM-dd");
     
 
     
-    @RequestMapping(value = {"latest/"})
+    @RequestMapping(value = {"latest/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<WeightView> latest() {
     	//[ { "date": "2015-04-08 05:19:00", "value": "191.35" } ]
@@ -76,6 +81,129 @@ public class WeightController extends AbstractWeightController {
     	return list;
     	
     }
+
+    @RequestMapping(value = {"c3/last30/"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public C3 last30C3()
+    {
+    	//[ { "date": "2015-04-08 05:19:00", "value": "191.35" } ]
+    	List<Weight> list = weightDaoService.getWeightService().latest(1,30);
+    	C3 c3 = new C3();
+    	if (list.size() > 0) {
+    		List<Float> ints = new ArrayList<Float>();
+    		List<String> dates = new ArrayList<String>();
+        	for (Weight w: list) {
+        		
+        		dates.add(shortDate.format(w.getWeightInDate()));
+            	ints.add(Float.parseFloat(w.getValue()));
+            	
+        	}
+        	c3.setX(dates);
+        	c3.setData1(ints);
+        	return c3;
+    	} else {
+    		//log.debug("Start Date: " + startDate);
+    		//log.debug("End Date: " + endDate);
+    		return null;
+    	}
+    	
+    	
+    	
+    	
+    }
+    
+    
+
+    
+    @RequestMapping(value = {"between/c3/{startDate}/{endDate}/"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public C3 between(
+    		@PathVariable(value="startDate")
+    		@DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+    		@PathVariable(value="endDate")
+    		@DateTimeFormat(pattern="yyyy-MM-dd") Date endDate
+    		
+    		) {
+    	//[ { "date": "2015-04-08 05:19:00", "value": "191.35" } ]
+    	List<Weight> list = weightDaoService.getWeightService().between(1,startDate, endDate);
+    	C3 c3 = new C3();
+    	if (list.size() > 0) {
+    		List<Float> ints = new ArrayList<Float>();
+    		List<String> dates = new ArrayList<String>();
+        	for (Weight w: list) {
+        		
+        		dates.add(shortDate.format(w.getWeightInDate()));
+            	ints.add(Float.parseFloat(w.getValue()));
+            	
+        	}
+        	c3.setX(dates);
+        	c3.setData1(ints);
+        	return c3;
+    	} else {
+    		log.debug("Start Date: " + startDate);
+    		log.debug("End Date: " + endDate);
+    		return null;
+    	}
+    	
+    	
+    	
+    	
+    }
+    
+    
+    
+    @RequestMapping(value = {"between/{startDate}/{endDate}/"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<WeightView> betweenC3(
+    		@PathVariable(value="startDate")
+    		@DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+    		@PathVariable(value="endDate")
+    		@DateTimeFormat(pattern="yyyy-MM-dd") Date endDate
+    		
+    		) {
+    	//[ { "date": "2015-04-08 05:19:00", "value": "191.35" } ]
+    	List<Weight> list = weightDaoService.getWeightService().between(1,startDate, endDate);
+    	if (list.size() > 0) {
+    		List<WeightView> output = new ArrayList<WeightView>();
+        	for (Weight w: list) {
+        		WeightView wv = new WeightView();
+            	wv.setDate(w.getWeightInDate());
+            	wv.setValue(w.getValue());
+            	output.add(wv);
+        	}
+        	return output;
+    	} else {
+    		log.debug("Start Date: " + startDate);
+    		log.debug("End Date: " + endDate);
+    		return null;
+    	}
+    	
+    	
+    	
+    	
+    }
+    
+    
+    
+    @RequestMapping(value = {"last30/"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<WeightView> last30() {
+    	//[ { "date": "2015-04-08 05:19:00", "value": "191.35" } ]
+    	List<Weight> list = weightDaoService.getWeightService().latest(1, 30);
+    	
+    	List<WeightView> output = new ArrayList<WeightView>();
+    	for (Weight w: list) {
+    		WeightView wv = new WeightView();
+        	wv.setDate(w.getWeightInDate());
+        	wv.setValue(w.getValue());
+        	output.add(wv);
+    	}
+    	
+    	return output;
+    	
+    }
+    
+    
     
     @RequestMapping(value = {"record/"}, method = RequestMethod.POST)
     @ResponseBody

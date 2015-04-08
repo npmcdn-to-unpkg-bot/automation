@@ -1,5 +1,8 @@
 package com.schappet.weight.dao;
 
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
@@ -38,6 +41,27 @@ public class WeightHome extends GenericDao<Weight> implements WeightService {
 	        criteria.setMaxResults(1);
 	        return (Weight) criteria.uniqueResult();
 		 
+	}
+
+	@Override
+	public List<Weight> latest(int personId, int count) {
+	     Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Weight.class);
+	     criteria.add(Restrictions.eq("personId", personId));
+	     criteria.addOrder(Order.desc("weightInDate"));
+	     criteria.setMaxResults(count < 50 ? count : 50);
+	     return criteria.list();
+		 
+	}
+
+	@Override
+	public List<Weight> between(int personId, Date start, Date end) {
+		  Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Weight.class);
+		  criteria.add(Restrictions.eq("personId", personId));
+		  criteria.add(Restrictions.between("weightInDate", start, end));
+
+		  criteria.addOrder(Order.desc("weightInDate"));
+		// TODO Auto-generated method stub
+		return criteria.list();
 	}
 
 }
