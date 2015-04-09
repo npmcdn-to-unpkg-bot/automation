@@ -59,4 +59,4 @@ List the customer for whom this application was developed, at a minimum include 
 
 
 
-[![Build Status](https://travis-ci.org/schappetj/automation.svg?branch=master)](https://travis-ci.org/schappetj/automation/)
+[![Build Status](https://travis-ci.org/jschappet/automation.svg?branch=master)](https://travis-ci.org/jschappet/automation/)
