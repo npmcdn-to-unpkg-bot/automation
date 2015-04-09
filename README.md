@@ -56,3 +56,7 @@ List the customer for whom this application was developed, at a minimum include 
 
 -Jane Doe <jane-doe@uiowa.edu>
 -Bob Smith <bob-smith@uiowa.edu>
+
+
+
+[![Build Status](https://travis-ci.org/schappetj/automation.svg?branch=master)](https://travis-ci.org/schappetj/automation/)
