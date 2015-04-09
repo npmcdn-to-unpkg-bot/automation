@@ -43,14 +43,22 @@
 		</session-management>
     </http>
     
-    <ldap-server id="ldapServer" url="${ldap.url}" root="${ldap.root}" manager-dn="${ldap.bind.user}" manager-password="${ldap.bind.password}"  />
+<!--     <ldap-server id="ldapServer" url="${ldap.url}" root="${ldap.root}" manager-dn="${ldap.bind.user}" manager-password="${ldap.bind.password}"  /> -->
     
-    <ldap-user-service id="userDetailsService" server-ref="ldapServer" user-search-filter="(cn={0})" group-search-base="${ldap.root}" 
-    				   user-search-base="${ldap.root}" group-search-filter="(member={0})"  />
+<!--     <ldap-user-service id="userDetailsService" server-ref="ldapServer" user-search-filter="(cn={0})" group-search-base="${ldap.root}"  -->
+<!--     				   user-search-base="${ldap.root}" group-search-filter="(member={0})"  /> -->
 
-    <authentication-manager>
-    	<ldap-authentication-provider server-ref="ldapServer" user-search-filter="cn={0}" group-search-base="${ldap.root}" 
-    	                              group-search-filter="(member={0})" group-role-attribute="cn" user-search-base="${ldap.root}" />
-    </authentication-manager>
+<!--     <authentication-manager> -->
+<!--     	<ldap-authentication-provider server-ref="ldapServer" user-search-filter="cn={0}" group-search-base="${ldap.root}"  -->
+<!--     	                              group-search-filter="(member={0})" group-role-attribute="cn" user-search-base="${ldap.root}" /> -->
+<!--     </authentication-manager> -->
 
+	<authentication-manager>
+		<authentication-provider>
+	    	<jdbc-user-service data-source-ref="dataSource" 
+	    	users-by-username-query="select username,password from users where username=?"
+	    	 authorities-by-username-query="select u.username, r.authority from users u, roles r where u.userid = r.userid and u.username =?" 
+	    	 />
+		</authentication-provider>
+	</authentication-manager>
 </beans:beans>

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.uiowa.icts.exception.MappingNotFoundException;
+import com.schappet.spring.MappingNotFoundException;
 //import com.schappet.exception.MappingNotFoundException;
 
 @Controller

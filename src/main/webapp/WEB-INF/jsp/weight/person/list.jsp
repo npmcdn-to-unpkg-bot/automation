@@ -2,7 +2,7 @@
 
 <h2>Person List</h2>
 
-<a href="add" class="btn btn-default">Add</a>
+<!-- <a href="add" class="btn btn-default">Add</a> -->
 
 <div id="error_div" class="alert alert-error" style="display: none;">
     <%-- div for showing errors, see messager.js.showMessage --%>
@@ -19,7 +19,7 @@
     var columns = [];
     columns.push({ "name": "urls", "title":"", "class":"", "sortable":false, "searchable": false });
     columns.push({ "name": "emailId", "title":"EmailId",	"class":"", "sortable":true, "searchable": true });
-    columns.push({ "name": "password", "title":"Password",	"class":"", "sortable":true, "searchable": true });
+    //columns.push({ "name": "password", "title":"Password",	"class":"", "sortable":true, "searchable": true });
     columns.push({ "name": "firstName", "title":"FirstName",	"class":"", "sortable":true, "searchable": true });
     columns.push({ "name": "lastName", "title":"LastName",	"class":"", "sortable":true, "searchable": true });
     columns.push({ "name": "middleName", "title":"MiddleName",	"class":"", "sortable":true, "searchable": true });

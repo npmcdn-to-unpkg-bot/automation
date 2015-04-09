@@ -1,8 +1,9 @@
 package com.schappet.weight.controller;
 
-import edu.uiowa.icts.spring.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.schappet.spring.*;
 import com.schappet.weight.dao.*;
 
 /**

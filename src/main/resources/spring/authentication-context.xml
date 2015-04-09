@@ -2,7 +2,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
-                           http://www.springframework.org/schema/beans/spring-beans.xsd">                   
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+                           
+                           <!--                    
    	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource" >
       	<property name="url" value="${ldap.url}" />
       	<property name="base" value="${ldap.root}" />
@@ -14,4 +16,6 @@
  		<constructor-arg ref="contextSource" />
  	</bean>
    	<bean id="ldapPerson" class="edu.uiowa.icts.spring.ldap.LDAPPerson" />
+   	
+   	 -->
 </beans>

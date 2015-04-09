@@ -1,7 +1,8 @@
 package com.schappet.weight.dao;
 
-import edu.uiowa.icts.spring.*;
+import com.schappet.spring.*;
 import com.schappet.weight.domain.*;
+
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 import org.springframework.stereotype.Repository;

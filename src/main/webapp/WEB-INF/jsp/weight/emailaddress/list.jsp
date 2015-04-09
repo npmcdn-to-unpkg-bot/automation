@@ -2,7 +2,7 @@
 
 <h2>EmailAddress List</h2>
 
-<a href="add" class="btn btn-default">Add</a>
+<!-- <a href="add" class="btn btn-default">Add</a> -->
 
 <div id="error_div" class="alert alert-error" style="display: none;">
     <%-- div for showing errors, see messager.js.showMessage --%>

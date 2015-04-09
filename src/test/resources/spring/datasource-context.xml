@@ -23,7 +23,7 @@
 	    <property name="password" value="" />
 	</bean>
 
-	<bean id="createSchema" class="edu.uiowa.icts.spring.HsqlCreateSchema"  init-method="create">
+	<bean id="createSchema" class="com.schappet.spring.HsqlCreateSchema"  init-method="create">
 		<property name="schemas">
 			<list>
 				<value>weight</value>

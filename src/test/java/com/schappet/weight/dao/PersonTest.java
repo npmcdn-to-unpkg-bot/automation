@@ -1,12 +1,12 @@
 package com.schappet.weight.dao;
 
-import edu.uiowa.icts.spring.*;
-import edu.uiowa.icts.spring.AbstractSpringTestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.web.WebAppConfiguration;
+
+import com.schappet.spring.*;
 
 /**
  * Unit test Template
