@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.schappet.spring.*;
+import com.schappet.spring.AbstractSpringTestCase;
 
 /**
  * Unit test Template

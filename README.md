@@ -1,29 +1,18 @@
 # automation
 ===============================================
 
-# Background
-Brief description of what the what the application is and why it's important.
-
-This component provides major feature one...
-
-- It uses properties [example.properties](src/main/resources/config/example.properties)
-- does cool thing one
-- does cool thing two
-- Uses neat spring feature
- - stuff
- - other stuff
- 
- 
-This component provides major feature two...
-
-- Opens Port 12345
-- Listens for POST Request /foo/?bar=<bar>&baz=<baz>
-- See the example html [test file](src/main/non-packaged-resources/test.html)
+## Background
+Automation tool for Web Services collections like Zapier/IFTTT
 
 
+This application provides a user interface to a database to record my health measures.  Because what you don't measure you can't manage.  This database currently tracks three main areas.
+
+- Weight: recorded daily in pounds, but a Withings Scale
+- Activity: recorded by a Misfit Shine
+- Blood Pressure and Pulse, recorded with iHealth BP Cuff 
 
 The project requires:
- - [Tomcat](http://tomcat.apache.org/)
+ - [Jetty](http://eclispe.org/jetty)
  - JAVA >= 1.7 
 
 This project is a maven project and should be built using:
@@ -54,8 +43,8 @@ The update [log4j.properties](src/main/resources/log4j.properties) to change loc
 # Project Details
 List the customer for whom this application was developed, at a minimum include names and email addresses.
 
--Jane Doe <jane-doe@uiowa.edu>
--Bob Smith <bob-smith@uiowa.edu>
+-James Schappet <jschappet@gmail.com>
+
 
 
 

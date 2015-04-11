@@ -10,6 +10,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class WeightDaoService {
 
+	
+	@Autowired
+	private ActivityService activityService;
+
+    public ActivityService getActivityService() {
+        return activityService;
+    }
+    
 	@Autowired
 	private EmailAddressService emailAddressService;
 
@@ -22,6 +30,13 @@ public class WeightDaoService {
 
     public PersonService getPersonService() {
         return personService;
+    }
+    
+	@Autowired
+	private VitalsService vitalsService;
+
+    public VitalsService getVitalsService() {
+        return vitalsService;
     }
 
 	@Autowired

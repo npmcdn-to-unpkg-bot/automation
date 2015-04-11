@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/include.jsp"  %>
 
-<h2>EmailAddress List</h2>
+<h2>Activity List</h2>
 
 <a href="add" class="btn btn-default">Add</a>
 
@@ -8,20 +8,21 @@
     <%-- div for showing errors, see messager.js.showMessage --%>
 </div>
 
-<table id="emailaddressTable" class="table table-bordered table-striped table-hover">
+<table id="activityTable" class="table table-bordered table-striped table-hover">
     <%-- table filled by setDataTable call below --%>
 </table>
 
-<c:url value="/emailaddress/datatable" var="datatableUrl">
+<c:url value="/activity/datatable" var="datatableUrl">
     <c:param name="display" value="list" />
 </c:url>
 <script type="text/javascript">
     var columns = [];
     columns.push({ "name": "urls", "title":"", "class":"", "sortable":false, "searchable": false });
-    columns.push({ "name": "address", "title":"Address",	"class":"", "sortable":true, "searchable": true });
-    columns.push({ "name": "password", "title":"Password",	"class":"", "sortable":true, "searchable": true });
+    columns.push({ "name": "personId", "title":"PersonId",	"class":"", "sortable":true, "searchable": true });
+    columns.push({ "name": "value", "title":"Value",	"class":"", "sortable":true, "searchable": true });
+    columns.push({ "name": "activityDate", "title":"ActivityDate",	"class":"", "sortable":true, "searchable": true });
     var table = setDataTable({
-        id : 'emailaddressTable',
+        id : 'activityTable',
         url : '${ datatableUrl }',
         columns : columns,
         individualSearching : true 
