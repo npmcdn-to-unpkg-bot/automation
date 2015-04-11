@@ -1,5 +1,7 @@
 package com.schappet.weight.controller;
 
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -9,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.schappet.spring.DataTableHeader;
 import com.schappet.spring.GenericDaoListOptions;
@@ -37,6 +41,10 @@ import com.schappet.weight.domain.Activity;
 @Controller
 @RequestMapping( "/activity/*" )
 public class ActivityController extends AbstractWeightController {
+	private static final int DEFAULT_PERSON = 1;
+    private final SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy 'at' KK:mma");
+    private final SimpleDateFormat shortDate = new SimpleDateFormat("yyyy-MM-dd");
+    private final SimpleDateFormat googleDocDate = new SimpleDateFormat("M/d/YYYY");
 
     private static final Log log = LogFactory.getLog( ActivityController.class );
 
@@ -51,6 +59,57 @@ public class ActivityController extends AbstractWeightController {
         return "/weight/activity/list";
     }
 
+
+    @RequestMapping(value = {"record/"}, method = RequestMethod.POST)
+    @ResponseBody
+    public String list(HttpServletRequest request,
+    		@RequestParam(value="file", required=true) CommonsMultipartFile locationMapFileData
+    		//,@RequestParam(value="data") String data
+    		) {
+    	//Map<String, String[]> names = request.getParameterMap();
+    	InputStream in ;
+    	String jsonStr;
+		try {
+			 in = locationMapFileData.getInputStream();
+			jsonStr = IOUtils.toString(in, "UTF-8");
+			//log.debug("contents: " + jsonStr);
+    		String[] lines = jsonStr.split("\n");
+    		for (String line : lines) {
+    			log.debug(line );
+    		}
+    		//JSONObject json = new JSONObject(jsonStr);
+    		// { "MeasuredAt": April 01, 2015 at 05:22AM, "WeightLb": 191.28 }
+    		
+			/*
+			String dateStr = json.getString("MeasuredAt");
+    		Double value = json.getDouble("WeightLb");
+    		Date date = new Date();
+    		try {
+    			date = sdf.parse(dateStr);
+    			
+    		} catch (Exception pe) {
+    			log.debug("could not parse date", pe);
+    		}
+    		
+    		
+    		*/
+//    		Weight w = new Weight();
+//    		w.setPersonId(DEFAULT_PERSON);
+//    		w.setWeightInDate(date);
+//    		w.setValue(""+value);
+//    		weightDaoService.getWeightService().save(w);
+//    	
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			log.error("error parsing json", e);
+		} 
+        return "done";
+    }
+
+
+    
+    
+    
 	@ResponseBody
 	@RequestMapping( value = "datatable" , produces = "application/json" )
 	public DataTable datatable( HttpServletRequest request, 

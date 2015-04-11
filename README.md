@@ -39,6 +39,9 @@ This application uses log4j, application logs are stored in <exe_root>/logs/.  T
  
 The update [log4j.properties](src/main/resources/log4j.properties) to change location or log levels
 
+## REST Commands
+Post Activity
+    curl -i -F name=test -F data=@localfile.csv http://localhost:8080/activity/record/
 
 # Project Details
 List the customer for whom this application was developed, at a minimum include names and email addresses.
