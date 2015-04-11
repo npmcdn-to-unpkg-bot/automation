@@ -1,23 +1,22 @@
 package com.schappet.weight.domain;
 
-import java.util.Set;
 import java.util.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.Date;
+
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Table;
 import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.hibernate.annotations.*;
+
 import javax.persistence.CascadeType;
+
 import com.schappet.*;
 
 import org.apache.commons.logging.Log;
@@ -33,12 +32,39 @@ public class Activity {
 
 	private static final Log log = LogFactory.getLog(Activity.class);
 
-        private Integer activityId;
-        private Integer personId;
-        private String value;
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Integer activityId;
+    private Integer personId;
+    private String value;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date activityDate;
 
+    public Activity() {
+    	
+    }
+    @Override
+	public String toString() {
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+		return "Activity [activityId=" + activityId + ", personId=" + personId
+				+ ", value=" + value + ", activityDate=" + formatter.format(activityDate) + "]";
+	}
+	public Activity(String csv, int personId) {
+    	String[] parts = csv.split(",");
+    	String date = parts[0];
+    	
+    	this.personId=personId;
+        SimpleDateFormat googleDocDate = new SimpleDateFormat("M/d/YYYY");
+        try {
+        	this.activityDate = googleDocDate.parse(date);
+        
+        } catch (Exception e) {
+        	log.error("parse failed for: " + date, e);
+        	this.activityDate = new Date();
+        }
+        value = parts[1];
+    	
+    }
 
     /*****activityId*****/
     @javax.persistence.SequenceGenerator(  name="gen",  sequenceName="weight.seqnum",allocationSize=1)
@@ -85,7 +111,7 @@ public class Activity {
 
     public void setActivityDate(String activityDate){
         try{
-            DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             formatter.setLenient(true);
             this.activityDate = formatter.parse(activityDate);
         } catch (ParseException e) { 

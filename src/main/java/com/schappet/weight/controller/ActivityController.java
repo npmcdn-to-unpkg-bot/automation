@@ -75,7 +75,9 @@ public class ActivityController extends AbstractWeightController {
 			//log.debug("contents: " + jsonStr);
     		String[] lines = jsonStr.split("\n");
     		for (String line : lines) {
-    			log.debug(line );
+        		
+        		Activity a = new Activity(line, DEFAULT_PERSON);
+    			log.debug(a.toString() );
     		}
     		//JSONObject json = new JSONObject(jsonStr);
     		// { "MeasuredAt": April 01, 2015 at 05:22AM, "WeightLb": 191.28 }
@@ -284,6 +286,7 @@ public class ActivityController extends AbstractWeightController {
 			
 			return "/weight/activity/edit"; 
 		} else {
+			
 			try {
 				weightDaoService.getActivityService().saveOrUpdate( activity );
 			} catch (NonUniqueObjectException e) {
