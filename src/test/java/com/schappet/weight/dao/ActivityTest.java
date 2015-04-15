@@ -89,7 +89,7 @@ public class ActivityTest extends AbstractSpringTestCase {
 	public void testValue( ) throws Exception {
 		Activity test1 = new Activity(TEST0, PERSON_ID);
 		
-		assertEquals("Value is wrong", "11410", test1.getValue());
+		assertEquals("Value is wrong", "1404", test1.getValue());
 	}
 
 }
