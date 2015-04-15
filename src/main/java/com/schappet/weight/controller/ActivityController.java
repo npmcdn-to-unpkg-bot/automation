@@ -76,31 +76,17 @@ public class ActivityController extends AbstractWeightController {
     		String[] lines = jsonStr.split("\n");
     		for (String line : lines) {
         		
-        		Activity a = new Activity(line, DEFAULT_PERSON);
-    			log.debug(a.toString() );
-    		}
-    		//JSONObject json = new JSONObject(jsonStr);
-    		// { "MeasuredAt": April 01, 2015 at 05:22AM, "WeightLb": 191.28 }
-    		
-			/*
-			String dateStr = json.getString("MeasuredAt");
-    		Double value = json.getDouble("WeightLb");
-    		Date date = new Date();
-    		try {
-    			date = sdf.parse(dateStr);
+        		
+        		try {
+        			Activity a = new Activity(line, DEFAULT_PERSON);
+        			weightDaoService.getActivityService().save(a);	
+        						
+        		} catch (NumberFormatException nfe) {
+        			
+        		}
+        		
     			
-    		} catch (Exception pe) {
-    			log.debug("could not parse date", pe);
     		}
-    		
-    		
-    		*/
-//    		Weight w = new Weight();
-//    		w.setPersonId(DEFAULT_PERSON);
-//    		w.setWeightInDate(date);
-//    		w.setValue(""+value);
-//    		weightDaoService.getWeightService().save(w);
-//    	
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			log.error("error parsing json", e);

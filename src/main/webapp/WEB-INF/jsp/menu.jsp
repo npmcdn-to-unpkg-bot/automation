@@ -4,7 +4,8 @@
 	
 	<sec:authorize access="!isAuthenticated()">
 		<li><a href="<c:url value="/login" />">Login</a></li>
-	<li><a class="list-group-item" href="<c:url value="/emailaddress/list" />" >EmailAddress List</a></li>
+	<li><a class="list-group-item" href="<c:url value="/activity/list" />" >Activity List</a></li>
+	<li><a class="list-group-item" href="<c:url value="/emailaddress/list" />" >Email Address List</a></li>
 	<li><a class="list-group-item" href="<c:url value="/person/list" />" >Person List</a></li>
 	<li><a class="list-group-item" href="<c:url value="/weight/list" />" >Weight List</a></li>
 	</sec:authorize>
