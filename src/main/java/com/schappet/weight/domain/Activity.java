@@ -57,7 +57,7 @@ public class Activity {
     		throw new NumberFormatException();
     	}
     	this.personId=personId;
-        this.value = parts[1];
+        this.value = parts[4];
     	
     }
 

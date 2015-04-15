@@ -205,45 +205,45 @@ public class WeightController extends AbstractWeightController {
     	
     }
     
-    
-    
-    @RequestMapping(value = {"record/"}, method = RequestMethod.POST)
-    @ResponseBody
-    public String list(HttpServletRequest request,
-    		@RequestParam(value="file", required=true) CommonsMultipartFile locationMapFileData,
-    		@RequestParam(value="data") String data) {
-    	//Map<String, String[]> names = request.getParameterMap();
-    	InputStream in ;
-    	String jsonStr;
-		try {
-			 in = locationMapFileData.getInputStream();
-			jsonStr = IOUtils.toString(in, "UTF-8");
-			log.debug("contents: " + jsonStr);
-    		
-    		JSONObject json = new JSONObject(jsonStr);
-    		// { "MeasuredAt": April 01, 2015 at 05:22AM, "WeightLb": 191.28 }
-    		String dateStr = json.getString("MeasuredAt");
-    		Double value = json.getDouble("WeightLb");
-    		Date date = new Date();
-    		try {
-    			date = sdf.parse(dateStr);
-    			
-    		} catch (Exception pe) {
-    			log.debug("could not parse date", pe);
-    		}
-    		log.debug("Date : " + date + " : Value: " + value);
-    		Weight w = new Weight();
-    		w.setPersonId(DEFAULT_PERSON);
-    		w.setWeightInDate(date);
-    		w.setValue(""+value);
-    		weightDaoService.getWeightService().save(w);
-    	
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			log.error("error parsing json", e);
-		} 
-        return "done";
-    }
+//    
+//    
+//    @RequestMapping(value = {"record/"}, method = RequestMethod.POST)
+//    @ResponseBody
+//    public String list(HttpServletRequest request,
+//    		@RequestParam(value="file", required=true) CommonsMultipartFile locationMapFileData,
+//    		@RequestParam(value="data") String data) {
+//    	//Map<String, String[]> names = request.getParameterMap();
+//    	InputStream in ;
+//    	String jsonStr;
+//		try {
+//			 in = locationMapFileData.getInputStream();
+//			jsonStr = IOUtils.toString(in, "UTF-8");
+//			log.debug("contents: " + jsonStr);
+//    		
+//    		JSONObject json = new JSONObject(jsonStr);
+//    		// { "MeasuredAt": April 01, 2015 at 05:22AM, "WeightLb": 191.28 }
+//    		String dateStr = json.getString("MeasuredAt");
+//    		Double value = json.getDouble("WeightLb");
+//    		Date date = new Date();
+//    		try {
+//    			date = sdf.parse(dateStr);
+//    			
+//    		} catch (Exception pe) {
+//    			log.debug("could not parse date", pe);
+//    		}
+//    		log.debug("Date : " + date + " : Value: " + value);
+//    		Weight w = new Weight();
+//    		w.setPersonId(DEFAULT_PERSON);
+//    		w.setWeightInDate(date);
+//    		w.setValue(""+value);
+//    		weightDaoService.getWeightService().save(w);
+//    	
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			log.error("error parsing json", e);
+//		} 
+//        return "done";
+//    }
 
     
 	@ResponseBody
