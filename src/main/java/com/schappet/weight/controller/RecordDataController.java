@@ -2,43 +2,21 @@ package com.schappet.weight.controller;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.NonUniqueObjectException;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import com.schappet.spring.DataTableHeader;
-import com.schappet.spring.GenericDaoListOptions;
-import com.schappet.spring.SortColumn;
-import com.schappet.util.DataTable;
-import com.schappet.web.C3;
-import com.schappet.web.WeightView;
 import com.schappet.weight.domain.Activity;
 import com.schappet.weight.domain.Weight;
 
@@ -55,13 +33,9 @@ public class RecordDataController extends AbstractWeightController {
     
     private static final int DEFAULT_PERSON = 1;
     
-    @RequestMapping(value = {"list", "", "/"}, method = RequestMethod.GET)
-    public String list() {
-        return "index";
-    }
-
+    
     private final SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy 'at' KK:mma");
-    private final SimpleDateFormat shortDate = new SimpleDateFormat("yyyy-MM-dd");
+    
     
     
     
@@ -76,6 +50,7 @@ public class RecordDataController extends AbstractWeightController {
 		try {
 			in = locationMapFileData.getInputStream();
 			jsonStr = IOUtils.toString(in, "UTF-8");
+			log.debug("fileName: " + locationMapFileData.getOriginalFilename());
 			log.debug("contents: " + jsonStr);
     		
     		JSONObject json = new JSONObject(jsonStr);
