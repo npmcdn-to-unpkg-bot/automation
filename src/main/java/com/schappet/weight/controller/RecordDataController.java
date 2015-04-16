@@ -36,6 +36,7 @@ public class RecordDataController extends AbstractWeightController {
     
     private final SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy 'at' KK:mma");
     
+    private final SimpleDateFormat activitySdf = new SimpleDateFormat("yyyy-MM-dd");
     
     
     
@@ -96,9 +97,19 @@ public class RecordDataController extends AbstractWeightController {
 		String dateStr = json.getString("date");
 		String points = json.getString("points");
 		int personId = json.getInt("personId");
-		log.debug("Date : " + dateStr + " : Value: " + points);
-		Activity a = new Activity(dateStr+",11410,4.7,miles,"+points +",blah,", personId);
 		
+		Date date = new Date();
+		try {
+			date = activitySdf.parse(dateStr);
+			
+		} catch (Exception pe) {
+			log.debug("could not parse date", pe);
+		}
+		log.debug("Date : " + dateStr + " : Value: " + points);
+		Activity a = new Activity();
+		a.setActivityDate(date);
+		a.setPersonId(personId);
+		a.setValue(points);
 		weightDaoService.getActivityService().save(a);
 
     }
