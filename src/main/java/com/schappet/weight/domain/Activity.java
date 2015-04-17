@@ -45,19 +45,24 @@ public class Activity {
 		
     	String[] parts = csv.split(",");
     	try  {
-    	String date[] = parts[0].split("/");
-    	int month = Integer.parseInt(date[0]);
-    	int day = Integer.parseInt(date[1]);
-    	int year = Integer.parseInt(date[2]);
-    	
-    	Calendar calendar = new GregorianCalendar(year,month -1 ,day);
-    	
-    	this.activityDate = calendar.getTime();
+	    	String date[] = parts[0].split("/");
+	    	int month = Integer.parseInt(date[0]);
+	    	int day = Integer.parseInt(date[1]);
+	    	int year = Integer.parseInt(date[2]);
+	    	
+	    	Calendar calendar = new GregorianCalendar(year,month -1 ,day);
+	    	
+	    	this.activityDate = calendar.getTime();
     	} catch (NumberFormatException nfe) {
     		throw new NumberFormatException();
     	}
     	this.personId=personId;
-        this.value = parts[4];
+    	try {
+    		this.value = parts[4];	
+    	} catch( ArrayIndexOutOfBoundsException aioobe) {
+    		throw new ArrayIndexOutOfBoundsException();
+    	}
+        
     	
     }
 

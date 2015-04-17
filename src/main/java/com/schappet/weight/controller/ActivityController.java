@@ -79,10 +79,13 @@ public class ActivityController extends AbstractWeightController {
         		
         		try {
         			Activity a = new Activity(line, DEFAULT_PERSON);
-        			weightDaoService.getActivityService().save(a);	
+        			if (a != null) 
+        				weightDaoService.getActivityService().save(a);	
         						
         		} catch (NumberFormatException nfe) {
-        			
+        			log.debug("skip");
+        		} catch (ArrayIndexOutOfBoundsException aio) {
+        			log.debug("skip");
         		}
         		
     			
