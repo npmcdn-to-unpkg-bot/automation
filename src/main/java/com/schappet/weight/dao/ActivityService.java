@@ -1,5 +1,7 @@
 package com.schappet.weight.dao;
 
+import java.util.List;
+
 import com.schappet.spring.GenericDaoInterface;
 import com.schappet.weight.domain.Activity;
 
@@ -10,5 +12,7 @@ import com.schappet.weight.domain.Activity;
 public interface ActivityService extends GenericDaoInterface<Activity> {
 
 	public Activity findById( Integer id );
+
+	public List<Activity> latest(int defaultPerson, int i);
 
 }

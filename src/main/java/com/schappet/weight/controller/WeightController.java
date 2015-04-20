@@ -1,6 +1,5 @@
 package com.schappet.weight.controller;
 
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,13 +11,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.NonUniqueObjectException;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -31,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.schappet.spring.DataTableHeader;
 import com.schappet.spring.GenericDaoListOptions;
@@ -39,6 +35,7 @@ import com.schappet.spring.SortColumn;
 import com.schappet.util.DataTable;
 import com.schappet.web.C3;
 import com.schappet.web.WeightView;
+import com.schappet.weight.domain.Activity;
 import com.schappet.weight.domain.Weight;
 
 /**
@@ -90,27 +87,51 @@ public class WeightController extends AbstractWeightController {
     {
     	//[ { "date": "2015-04-08 05:19:00", "value": "191.35" } ]
     	List<Weight> list = weightDaoService.getWeightService().latest(DEFAULT_PERSON,30);
-    	C3 c3 = new C3();
+    	List<Activity> aList = weightDaoService.getActivityService().latest(DEFAULT_PERSON,30);
+    	Map<String,Float[]> tempMap = new HashMap<String, Float[]>();
+    	String date = "";
+    	
     	if (list.size() > 0) {
-    		List<Float> ints = new ArrayList<Float>();
-    		List<String> dates = new ArrayList<String>();
-        	for (Weight w: list) {
-        		
-        		dates.add(shortDate.format(w.getWeightInDate()));
-            	ints.add(Float.parseFloat(w.getValue()));
-            	
-        	}
-        	c3.setX(dates);
-        	c3.setData1(ints);
-        	return c3;
+    		for (Weight w: list) {
+    			date = shortDate.format(w.getWeightInDate());
+    			Float[] values = tempMap.get(date);
+    			if (values == null)
+    				values = new Float[2];
+    			values[0] = Float.parseFloat(w.getValue());
+    			tempMap.put(date, values);
+    		}
+    		for (Activity a : aList) {
+    			date = shortDate.format(a.getActivityDate());
+    			Float[] values = tempMap.get(date);
+    			if (values == null)
+    				values = new Float[2];
+    			values[1] = Float.parseFloat(a.getValue()) / 10 ;
+    			tempMap.put(date, values);
+    		}
+        	//return c3;
     	} else {
     		//log.debug("Start Date: " + startDate);
     		//log.debug("End Date: " + endDate);
-    		return null;
+    		//return null;
     	}
     	
-    	
-    	
+    	// tempMap to C3 List
+    	List<Float> ints = new ArrayList<Float>();
+		List<String> dates = new ArrayList<String>();
+		List<Float> activity = new ArrayList<Float>();
+		C3 c3 = new C3();
+    	for (String key : tempMap.keySet()) {
+            		
+       		dates.add(key);
+           	ints.add(tempMap.get(key)[0]);
+           	activity.add(tempMap.get(key)[1]);
+            	
+    	}
+    	c3.setX(dates);
+    	c3.setData1(ints);
+    	c3.setActivity(activity);
+	
+    	return c3;
     	
     }
     
