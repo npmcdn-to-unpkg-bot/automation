@@ -19,7 +19,7 @@
     var columns = [];
     columns.push({ "name": "urls", "title":"", "class":"", "sortable":false, "searchable": false });
     columns.push({ "name": "address", "title":"Address",	"class":"", "sortable":true, "searchable": true });
-    columns.push({ "name": "password", "title":"Password",	"class":"", "sortable":true, "searchable": true });
+    //columns.push({ "name": "password", "title":"Password",	"class":"", "sortable":true, "searchable": true });
     var table = setDataTable({
         id : 'emailaddressTable',
         url : '${ datatableUrl }',

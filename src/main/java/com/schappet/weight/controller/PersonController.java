@@ -35,7 +35,7 @@ import com.schappet.weight.domain.Person;
  * @since 04/07/2015 09:42:54 CDT
  */
 @Controller
-@RequestMapping( "/person/*" )
+@RequestMapping( "/person" )
 public class PersonController extends AbstractWeightController {
 
     private static final Log log = LogFactory.getLog( PersonController.class );

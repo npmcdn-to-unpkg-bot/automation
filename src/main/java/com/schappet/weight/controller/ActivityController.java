@@ -39,7 +39,7 @@ import com.schappet.weight.domain.Activity;
  * @since 04/11/2015 07:34:51 CDT
  */
 @Controller
-@RequestMapping( "/activity/*" )
+@RequestMapping( "/activity" )
 public class ActivityController extends AbstractWeightController {
 	private static final int DEFAULT_PERSON = 1;
     private final SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy 'at' KK:mma");
@@ -59,6 +59,7 @@ public class ActivityController extends AbstractWeightController {
         return "/weight/activity/list";
     }
 
+    private static final int BATCH_SIZE=200;
 
     @RequestMapping(value = {"record/"}, method = RequestMethod.POST)
     @ResponseBody
@@ -74,13 +75,18 @@ public class ActivityController extends AbstractWeightController {
 			jsonStr = IOUtils.toString(in, "UTF-8");
 			//log.debug("contents: " + jsonStr);
     		String[] lines = jsonStr.split("\n");
+    		List<Activity> batch = new ArrayList<Activity>();
     		for (String line : lines) {
         		
         		
         		try {
         			Activity a = new Activity(line, DEFAULT_PERSON);
         			if (a != null) 
-        				weightDaoService.getActivityService().save(a);	
+        				batch.add(a);
+        			if (batch.size() > BATCH_SIZE)  {
+        				weightDaoService.getActivityService().save(batch);
+        				batch.clear();
+        			}
         						
         		} catch (NumberFormatException nfe) {
         			log.debug("skip");
@@ -90,6 +96,9 @@ public class ActivityController extends AbstractWeightController {
         		
     			
     		}
+    		if (batch.size()> 0)
+    			weightDaoService.getActivityService().save(batch);
+        	
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			log.error("error parsing json", e);
@@ -206,9 +215,9 @@ public class ActivityController extends AbstractWeightController {
 					} else if( StringUtils.equals( "urls", headerName ) ) {
 						String urls = "";
 						if( StringUtils.equals( "list", display ) ){
-							urls += "<a href=\"show?"+"activityId="+activity.getActivityId()+"\"><span class=\"glyphicon glyphicon-eye-open\"></a>";
-							urls += "<a href=\"edit?"+"activityId="+activity.getActivityId()+"\"><span class=\"glyphicon glyphicon-pencil\"></a>";
-							urls += "<a href=\"delete?"+"activityId="+activity.getActivityId()+"\"><span class=\"glyphicon glyphicon-trash\"></a>";
+							urls += "<a href=\"/activity/show?"+"activityId="+activity.getActivityId()+"\"><span class=\"glyphicon glyphicon-eye-open\"></a>";
+							urls += "<a href=\"/activity/edit?"+"activityId="+activity.getActivityId()+"\"><span class=\"glyphicon glyphicon-pencil\"></a>";
+							urls += "<a href=\"/activity/delete?"+"activityId="+activity.getActivityId()+"\"><span class=\"glyphicon glyphicon-trash\"></a>";
 						} else {
 
 						}

@@ -13,15 +13,23 @@ var chart = c3.generate({
         x: 'x',
         url: 'weight/c3/last30/',
         mimeType: 'json',
+        axes: {
+            weight: 'y',
+            activity: 'y2'
+        }
     },
 	axis: {
-    x: {
-        type: 'timeseries',
-        tick: {
-            format: '%Y-%m-%d'
-        }
-    }
-}
+		y2: {
+	        show: true
+	    },
+	    x: {
+	        type: 'timeseries',
+	        tick: {
+	            format: '%Y-%m-%d'
+	       }
+	    
+    	}
+	}
 });
 
 </script>

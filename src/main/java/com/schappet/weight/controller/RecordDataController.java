@@ -25,7 +25,7 @@ import com.schappet.weight.domain.Weight;
  * @since 04/07/2015 09:42:54 CDT
  */
 @Controller
-@RequestMapping( "/record/data/*" )
+@RequestMapping( "/record/data" )
 public class RecordDataController extends AbstractWeightController {
 
     private static final Log log = LogFactory.getLog( RecordDataController.class );

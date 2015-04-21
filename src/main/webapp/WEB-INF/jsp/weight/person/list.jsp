@@ -19,7 +19,7 @@
     var columns = [];
     columns.push({ "name": "urls", "title":"", "class":"", "sortable":false, "searchable": false });
     columns.push({ "name": "emailId", "title":"EmailId",	"class":"", "sortable":true, "searchable": true });
-    columns.push({ "name": "password", "title":"Password",	"class":"", "sortable":true, "searchable": true });
+    //columns.push({ "name": "password", "title":"Password",	"class":"", "sortable":true, "searchable": true });
     columns.push({ "name": "firstName", "title":"FirstName",	"class":"", "sortable":true, "searchable": true });
     columns.push({ "name": "lastName", "title":"LastName",	"class":"", "sortable":true, "searchable": true });
     columns.push({ "name": "middleName", "title":"MiddleName",	"class":"", "sortable":true, "searchable": true });

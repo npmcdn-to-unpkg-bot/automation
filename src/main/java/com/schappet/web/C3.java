@@ -6,16 +6,16 @@ public class C3 {
 
 	
 	private List<String> x;
-	private List<Float> data1;
+	private List<Float> weight;
 	private List<Float> activity;
 
 	
-	public List<Float> getData1() {
-		return data1;
+	public List<Float> getWeight() {
+		return weight;
 	}
 
-	public void setData1(List<Float> data1) {
-		this.data1 = data1;
+	public void setWeight(List<Float> weight) {
+		this.weight = weight;
 	}
 
 	public List<String> getX() {

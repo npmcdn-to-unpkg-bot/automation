@@ -35,7 +35,7 @@ import com.schappet.weight.domain.Vitals;
  * @since 04/11/2015 07:34:51 CDT
  */
 @Controller
-@RequestMapping( "/vitals/*" )
+@RequestMapping( "/vitals" )
 public class VitalsController extends AbstractWeightController {
 
     private static final Log log = LogFactory.getLog( VitalsController.class );

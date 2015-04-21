@@ -43,7 +43,7 @@ import com.schappet.weight.domain.Weight;
  * @since 04/07/2015 09:42:54 CDT
  */
 @Controller
-@RequestMapping( "/weight/*" )
+@RequestMapping( "/weight" )
 public class WeightController extends AbstractWeightController {
 
     private static final Log log = LogFactory.getLog( WeightController.class );
@@ -97,6 +97,7 @@ public class WeightController extends AbstractWeightController {
     			Float[] values = tempMap.get(date);
     			if (values == null)
     				values = new Float[2];
+    			
     			values[0] = Float.parseFloat(w.getValue());
     			tempMap.put(date, values);
     		}
@@ -105,7 +106,7 @@ public class WeightController extends AbstractWeightController {
     			Float[] values = tempMap.get(date);
     			if (values == null)
     				values = new Float[2];
-    			values[1] = Float.parseFloat(a.getValue()) / 10 ;
+    			values[1] = Float.parseFloat(a.getValue())  ;
     			tempMap.put(date, values);
     		}
         	//return c3;
@@ -128,7 +129,7 @@ public class WeightController extends AbstractWeightController {
             	
     	}
     	c3.setX(dates);
-    	c3.setData1(ints);
+    	c3.setWeight(ints);
     	c3.setActivity(activity);
 	
     	return c3;
@@ -160,7 +161,7 @@ public class WeightController extends AbstractWeightController {
             	
         	}
         	c3.setX(dates);
-        	c3.setData1(ints);
+        	c3.setWeight(ints);
         	return c3;
     	} else {
     		log.debug("Start Date: " + startDate);
