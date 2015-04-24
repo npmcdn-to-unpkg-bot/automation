@@ -55,7 +55,7 @@
 				<prop key="hibernate.hbm2ddl.auto">create-drop</prop>
 			<!-- 	<prop key="hibernate.show_sql">true</prop> -->
 				<prop key="hibernate.configurationClass">org.hibernate.cfg.AnnotationConfiguration</prop>
-				<prop key="hibernate.default_schema">automation</prop>
+				<prop key="hibernate.default_schema">weight</prop>
 			</props>
 		</property>
 	</bean>

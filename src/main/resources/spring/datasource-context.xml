@@ -12,7 +12,19 @@
 	    <property name="password" value="${database.password}" />
 	</bean>
 	
-	<bean id="sessionFactory" name="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+	<bean id="createSchema" class="com.schappet.spring.HsqlCreateSchema"  init-method="create">
+		<property name="schemas">
+			<list>
+				<value>WEIGHT</value>
+				
+			</list>
+		</property>
+		<property name="url">
+			<value>jdbc:hsqldb:mem:testdb;sql.enforce_size=false</value>
+		</property><!-- import.sql -->
+	</bean>
+	
+	<bean depends-on="createSchema" id="sessionFactory" name="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 	    <property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan">
 			<list>
@@ -21,8 +33,10 @@
 		</property>
 		<property name="hibernateProperties">
 			<props>
-				<prop key="show_sql">true</prop>
-				<prop key="configurationClass">org.hibernate.cfg.AnnotationConfiguration</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl}</prop>
+				<prop key="hibernate.default_schema">weight</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.configurationClass">org.hibernate.cfg.AnnotationConfiguration</prop>
 				<prop key="hibernate.dialect">${database.dialect}</prop>	
 				<prop key="hibernate.c3p0.min_size">5</prop>
 				<prop key="hibernate.c3p0.max_size">20</prop>
