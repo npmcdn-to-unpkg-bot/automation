@@ -35,7 +35,7 @@ public class Vitals {
 
         private Integer vitalsId;
         private Integer personId;
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
     private Date vitalsDate;
         private Integer systolic;
         private Integer diatolic;
@@ -82,7 +82,16 @@ public class Vitals {
             formatter.setLenient(true);
             this.vitalsDate = formatter.parse(vitalsDate);
         } catch (ParseException e) { 
-            log.error(" ParseException setting date for VitalsDate", e);
+        	try {
+        		//"yyyy-MM-dd hh:mm"
+        		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                formatter.setLenient(true);
+                this.vitalsDate = formatter.parse(vitalsDate);
+        	} catch (ParseException e1) {
+        		log.error(" ParseException setting date for VitalsDate", e);
+        	}
+        	
+            //log.error(" ParseException setting date for VitalsDate", e);
         }
     }
 

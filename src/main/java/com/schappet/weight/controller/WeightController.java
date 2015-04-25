@@ -63,7 +63,6 @@ public class WeightController extends AbstractWeightController {
     }
 
     private final SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy 'at' KK:mma");
-    private final SimpleDateFormat shortDate = new SimpleDateFormat("yyyy-MM-dd");
     
 
     

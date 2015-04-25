@@ -1,5 +1,7 @@
 package com.schappet.weight.controller;
 
+import java.text.SimpleDateFormat;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -11,6 +13,8 @@ import com.schappet.weight.dao.*;
  * Tue Apr 07 09:42:54 CDT 2015
  */
 public abstract class AbstractWeightController {
+
+    protected final SimpleDateFormat shortDate = new SimpleDateFormat("yyyy-MM-dd");
 
     /*********** weightDaoService ****************/
     protected WeightDaoService weightDaoService;

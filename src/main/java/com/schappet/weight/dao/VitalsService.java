@@ -1,5 +1,8 @@
 package com.schappet.weight.dao;
 
+import java.util.Date;
+import java.util.List;
+
 import com.schappet.spring.GenericDaoInterface;
 import com.schappet.weight.domain.Vitals;
 
@@ -10,5 +13,7 @@ import com.schappet.weight.domain.Vitals;
 public interface VitalsService extends GenericDaoInterface<Vitals> {
 
 	public Vitals findById( Integer id );
+	public Vitals findByPersonIdAndDate( Integer id, Date date );
+	public List<Vitals> latest(int defaultPerson, int i);
 
 }

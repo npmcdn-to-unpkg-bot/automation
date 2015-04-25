@@ -1,12 +1,23 @@
 package com.schappet.weight.controller;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.input.BOMInputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONObject;
@@ -18,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.schappet.weight.domain.Activity;
+import com.schappet.weight.domain.Vitals;
 import com.schappet.weight.domain.Weight;
 
 /**
@@ -50,17 +62,25 @@ public class RecordDataController extends AbstractWeightController {
     	String jsonStr;
 		try {
 			in = locationMapFileData.getInputStream();
-			jsonStr = IOUtils.toString(in, "UTF-8");
+			
 			log.debug("fileName: " + locationMapFileData.getOriginalFilename());
-			log.debug("contents: " + jsonStr);
+			//log.debug("contents: " + jsonStr);
     		
-    		JSONObject json = new JSONObject(jsonStr);
+    		
 		
 			if (locationMapFileData.getOriginalFilename().startsWith("weight_")) {
+				jsonStr = IOUtils.toString(in, "UTF-8");
+				JSONObject json = new JSONObject(jsonStr);
 	    		recordWeight(json);
 			}
 			if (locationMapFileData.getOriginalFilename().startsWith("activity_")) {
+				jsonStr = IOUtils.toString(in, "UTF-8");
+				JSONObject json = new JSONObject(jsonStr);
 	    		recordActivity(json);
+			}
+			if (locationMapFileData.getOriginalFilename().startsWith("vitals_")) {
+				log.debug("Recording vitals");
+	    		recordVitals(in);
 			}
 			
  			 
@@ -71,6 +91,117 @@ public class RecordDataController extends AbstractWeightController {
         return "done";
     }
 
+    public void recordVitalsNonCSV(InputStream vitalsCsv) throws IOException {
+    	Reader initialReader = null;
+    	try {
+    	    initialReader = newReader(vitalsCsv);
+    	    String targetString = IOUtils.toString(initialReader);
+    	    log.debug("input: " + targetString.substring(0, 100));
+    	    String[] lines = targetString.split("\n");
+    	    for (String line : lines) {
+    	    	log.debug(line);
+    	    }
+    	} catch (Exception e) {
+    		log.error("Exception: ", e);
+    	} finally {
+    		if (initialReader != null) 
+    			initialReader.close();
+    			
+    	}
+    }
+    
+    private static final int BATCH_SIZE=200;
+
+    
+    public void recordVitals(InputStream vitalsCsv) {
+    	
+    	
+    	Iterable<CSVRecord> records;
+		try {
+			records = CSVFormat.DEFAULT
+					.withHeader()//"Date","Time","SYS","DIA","Pulse","Comments","Empty")
+					.parse(newReader(vitalsCsv));
+			//records = CSVFormat.newFormat(',').parse(newReader(vitalsCsv));
+			log.debug("got records");
+			List<Vitals> batch = new ArrayList<Vitals>();
+			for (CSVRecord record : records) {
+				Vitals v ;
+				
+				//Date,Time,SYS,DIA,Pulse,Comments,
+	    	    String date = record.get("Date");
+	    	    String time = record.get("Time");
+	    	    String sys = record.get("SYS");
+	    	    String dia = record.get("DIA");
+	    	    
+	    	    String pulse = record.get("Pulse");
+	    	    
+	    	    String comments = record.get("Comments");
+	    	    Date dateTime = parseDate(date + " " + time);
+	    	    if (dateTime != null) {
+	    	    	v = weightDaoService.getVitalsService().findByPersonIdAndDate(DEFAULT_PERSON, dateTime);
+		    	    if (v == null) {
+		    	    	v = new Vitals ();
+		    	    	try {
+				    	    v.setComment(comments);
+				    	    v.setDiatolic(Integer.parseInt(dia));
+				    	    v.setSystolic(Integer.parseInt(sys));
+				    	    v.setVitalsDate(dateTime);
+				    	    v.setPulse(Integer.parseInt(pulse));
+				    	    v.setPersonId(DEFAULT_PERSON);
+				    	    batch.add(v);
+			    	    } catch (NumberFormatException nfe) {
+			    	    	//skip
+			    	    }	
+		    	    } else {
+		    	    	log.debug("aready added: "  + dateTime);
+		    	    }
+		    	    
+	
+	    	    }
+	    	    
+	    	    if (batch.size() > BATCH_SIZE)  {
+	    			weightDaoService.getVitalsService().save(batch);
+    				batch.clear();
+    			}
+	    	    //log.debug("date: " + date + " dia: " + dia);
+	    	}
+			weightDaoService.getVitalsService().save(batch);
+			log.debug("Done reading records");
+		} catch (Exception e) {
+			
+			log.error("Could not parse csv", e);
+			
+		}
+    	
+    	
+    	
+    	
+    }
+    
+    private Date parseDate(String date) {
+    	Date vitalsDate = null;
+    	 try{
+             DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+             formatter.setLenient(true);
+             vitalsDate = formatter.parse(date);
+         } catch (ParseException e) { 
+         	try {
+         		//"yyyy-MM-dd hh:mm"
+         		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                 formatter.setLenient(true);
+                 vitalsDate = formatter.parse(date);
+         	} catch (ParseException e1) {
+         		log.error(" ParseException setting date for VitalsDate", e);
+         	}
+         	
+             //log.error(" ParseException setting date for VitalsDate", e);
+         }
+    	 return vitalsDate;
+    }
+    
+    public InputStreamReader newReader(final InputStream inputStream) {
+        return new InputStreamReader(new BOMInputStream(inputStream), StandardCharsets.UTF_16);
+    }
     
     public void recordWeight(JSONObject json) {
 		// { "MeasuredAt": April 01, 2015 at 05:22AM, "WeightLb": 191.28 }
