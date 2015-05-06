@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -25,6 +27,9 @@ public class HsqlCreateSchema {
 	private String url = "jdbc:hsqldb:file:testdb";
 	private boolean test = false;
 
+	private DataSource dataSource ;
+	
+	
 	public void create() {
 
 		String output = "";
@@ -43,7 +48,11 @@ public class HsqlCreateSchema {
 		Connection conn = null;
 		try {
 
-			conn = DriverManager.getConnection( url, "sa", "" );
+			if (dataSource == null ) {
+				conn = DriverManager.getConnection( url, "sa", "" );
+			} else {
+				conn = dataSource.getConnection();
+			}
 
 			for ( String schema : schemas ) {
 				log.debug( "Checking to see if " + schema + " exist" );
@@ -111,6 +120,14 @@ public class HsqlCreateSchema {
 
 	public void setTest( boolean test ) {
 		this.test = test;
+	}
+
+	public DataSource getDataSource() {
+		return dataSource;
+	}
+
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
 	}
 
 }

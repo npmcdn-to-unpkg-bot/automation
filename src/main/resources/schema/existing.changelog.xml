@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd 
+http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+    <changeSet author="schappetj (generated)" id="1430568034040-1">
+        <createTable tableName="activity">
+            <column autoIncrement="true" name="activity_id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="person_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activity_date" type="datetime"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="schappetj (generated)" id="1430568034040-2">
+        <createTable tableName="email_address">
+            <column autoIncrement="true" name="email_id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="address" type="VARCHAR(120)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(15)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="schappetj (generated)" id="1430568034040-3">
+        <createTable tableName="person">
+            <column autoIncrement="true" name="person_id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="email_id" type="INT"/>
+            <column name="password" type="VARCHAR(24)"/>
+            <column name="first_name" type="VARCHAR(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="middle_name" type="VARCHAR(40)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="schappetj (generated)" id="1430568034040-4">
+        <createTable tableName="VITALS">
+            <column autoIncrement="true" name="vitals_id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="person_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vitals_date" type="datetime"/>
+            <column name="systolic" type="INT"/>
+            <column name="diatolic" type="INT"/>
+            <column name="pulse" type="INT"/>
+            <column name="comment" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="schappetj (generated)" id="1430568034040-5">
+        <createTable tableName="weight">
+            <column autoIncrement="true" name="weight_id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="person_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="weight_in_date" type="datetime"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="schappetj (generated)" id="1430568034040-6">
+        <createIndex indexName="fky_psa_email_id" tableName="person" unique="false">
+            <column name="email_id"/>
+        </createIndex>
+    </changeSet>
+    <!-- 
+    <changeSet author="schappetj (generated)" id="1430568034040-7">
+        <createView fullDefinition="false" viewName="view_weight">select `p`.`first_name` AS `Name`,`w`.`weight_in_date` AS `Date`,`w`.`value` AS `weight` from (`weight`.`person` `p` join `weight`.`weight` `w`) where (`p`.`person_id` = `w`.`weight_id`)</createView>
+    </changeSet>
+     -->
+</databaseChangeLog>

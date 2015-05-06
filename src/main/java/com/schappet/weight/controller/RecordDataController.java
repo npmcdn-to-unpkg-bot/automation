@@ -22,6 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,7 +38,7 @@ import com.schappet.weight.domain.Weight;
  * @since 04/07/2015 09:42:54 CDT
  */
 @Controller
-@RequestMapping( "/record/data" )
+@RequestMapping( "/record/" )
 public class RecordDataController extends AbstractWeightController {
 
     private static final Log log = LogFactory.getLog( RecordDataController.class );
@@ -51,10 +52,19 @@ public class RecordDataController extends AbstractWeightController {
     private final SimpleDateFormat activitySdf = new SimpleDateFormat("yyyy-MM-dd");
     
     
-    
-    @RequestMapping(value = {"/"}, method = RequestMethod.POST)
+
+    @RequestMapping(value = {"data_nodered"}, method = RequestMethod.POST)
     @ResponseBody
-    public String list(HttpServletRequest request,
+    public String debugDataLoader(@RequestBody String input ) {
+    	// {date: "2015-04-16" , points: "1652.8" , personId: 1 }
+        log.debug("input: " + input);
+        
+    	return "done";
+    }
+    
+    @RequestMapping(value = {"data"}, method = RequestMethod.POST)
+    @ResponseBody
+    public String dataLoader(HttpServletRequest request,
     		@RequestParam(value="file", required=true) CommonsMultipartFile locationMapFileData,
     		@RequestParam(value="data") String data) {
     	//Map<String, String[]> names = request.getParameterMap();

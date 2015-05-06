@@ -38,6 +38,7 @@
    	<import resource="classpath:spring/tiles-context.xml" />
    	<import resource="classpath:spring/authentication-context.xml" />
    	<import resource="classpath:spring/security-context.xml" />
+   	<import resource="classpath:spring/liquibase.xml" />
    	
    	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
    		   	   								<!-- 2GB max -->
