@@ -52,6 +52,9 @@ public class DefaultController {
 		return "index";
 	}
 
+	
+
+	
 	@RequestMapping( value = "switch_user" , method = RequestMethod.GET )
 	public String switch_user( ModelMap model, @RequestParam( value = "error" , required = false ) Boolean error ) {
 		model.addAttribute( "error", error );
