@@ -53,14 +53,37 @@ public class RecordDataController extends AbstractWeightController {
     
     
 
-    @RequestMapping(value = {"data_nodered"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"weight"}, method = RequestMethod.POST)
     @ResponseBody
     public String debugDataLoader(@RequestBody String input ) {
     	// {date: "2015-04-16" , points: "1652.8" , personId: 1 }
-        log.debug("input: " + input);
+        log.debug("weight input: " + input);
         
     	return "done";
     }
+
+    
+
+    @RequestMapping(value = {"vitals"}, method = RequestMethod.POST)
+    @ResponseBody
+    public String vitalsLoader(@RequestBody String input ) {
+    	// {date: "2015-04-16" , points: "1652.8" , personId: 1 }
+        log.debug("vitals input: " + input);
+        
+    	return "done";
+    }
+
+    
+
+    @RequestMapping(value = {"activity"}, method = RequestMethod.POST)
+    @ResponseBody
+    public String activityLoader(@RequestBody String input ) {
+    	// {date: "2015-04-16" , points: "1652.8" , personId: 1 }
+        log.debug("activity input: " + input);
+        
+    	return "done";
+    }
+
     
     @RequestMapping(value = {"data"}, method = RequestMethod.POST)
     @ResponseBody
