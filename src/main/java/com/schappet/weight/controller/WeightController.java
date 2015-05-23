@@ -34,6 +34,8 @@ import com.schappet.spring.GenericDaoListOptions;
 import com.schappet.spring.SortColumn;
 import com.schappet.util.DataTable;
 import com.schappet.web.C3;
+import com.schappet.web.SummaryDetails;
+import com.schappet.web.TableView;
 import com.schappet.web.WeightView;
 import com.schappet.weight.domain.Activity;
 import com.schappet.weight.domain.Weight;
@@ -206,7 +208,8 @@ public class WeightController extends AbstractWeightController {
     	
     }
     
-    
+
+
     
     @RequestMapping(value = {"last30/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
