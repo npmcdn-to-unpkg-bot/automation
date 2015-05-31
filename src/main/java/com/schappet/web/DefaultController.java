@@ -26,7 +26,7 @@ import com.schappet.weight.domain.Activity;
 import com.schappet.weight.domain.Weight;
 
 @Controller
-@RequestMapping( "/*" )
+@RequestMapping( "/" )
 public class DefaultController {
 
 	@Autowired
@@ -36,7 +36,7 @@ public class DefaultController {
 
 	private static final int DEFAULT_PERSON = 1;
 
-	@RequestMapping( "/**" )
+	@RequestMapping( "**" )
 	public String mappingNotFound( HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws MappingNotFoundException {
 		// throw new MappingNotFoundException( request.getRequestURL().toString() );
 		response.setStatus( 404 );

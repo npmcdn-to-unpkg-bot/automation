@@ -4,9 +4,18 @@
 	<div class="alert alert-danger">Please enable javascript, it is required for this application to function properly.</div>
 </noscript>
 
-<div class="panel panel-default">
+<div class="panel panel-default"   ng-controller="SummaryTableCtrl">
 	<div class="panel-heading">
 		<h1 class="panel-title">Welcome to automation</h1>
 	</div>
-	<div class="panel-body">Panel content</div>
+	  <div  id="grid1"  ui-grid="{ data: data }" class="grid"></div>
+	
+	<table>
+	
+    <tr ng-repeat="row in table">
+      <td>{{row.dateInstance}}</td>
+      <td>{{row.weightValue}}</td>
+      <td>{{row.activityValue}}</td>
+    </tr>
+  </table>
 </div>
