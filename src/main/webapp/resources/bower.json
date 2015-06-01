@@ -1,0 +1,24 @@
+{
+  "name": "resources",
+  "version": "0.0.1",
+  "homepage": "https://github.com/jschappet/automation",
+  "authors": [
+    "James Schappet <jimmy@schappet.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.4",
+    "d3": "~3.5.5",
+    "jquery-ui": "~1.11.4",
+    "angular": "~1.4.0",
+    "jquery": "~2.1.4",
+    "c3": "~0.4.10"
+  }
+}
