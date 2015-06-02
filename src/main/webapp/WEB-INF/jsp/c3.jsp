@@ -1,13 +1,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core"%>
 
-<h2>Weight Chart Last 30 Days</h2>
-<div id="vitals"></div>
+<h2>Weight Chart Last 30 Measures</h2>
+<h3>Weight and Activity</h3>
 <div id="chart"></div>
+<h3>BP and Pulse</h3>
+<div id="vitals"></div>
+
 <script type="text/javascript" >
+
+var size = 250;
 
 var vitals = c3.generate({
 	 size: {
-	        height: 540
+	        height: size
 	        
 	    },
    bindto: '#vitals',
@@ -15,6 +20,11 @@ var vitals = c3.generate({
        x: 'x',
        url: 'vitals/c3/last30/',
        mimeType: 'json',
+       axes: {
+           systolic: 'y',
+           diastolic: 'y',
+           pulse: 'y2'
+       }
        
    },
 	axis: {
@@ -23,7 +33,10 @@ var vitals = c3.generate({
 	        type: 'timeseries',
 	        tick: {
 	            format: '%Y-%m-%d'
-	       }
+	       },
+	   	y2: {
+	        show: true
+	    }
 	    
    	}
 	}
@@ -31,7 +44,7 @@ var vitals = c3.generate({
 
 var chart = c3.generate({
 	 size: {
-	        height: 540
+	        height: size
 	        
 	    },
     bindto: '#chart',
