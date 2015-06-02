@@ -10,12 +10,5 @@
 	</div>
 	  <div  id="grid1"  ui-grid="{ data: data }" class="grid"></div>
 	
-	<table>
-	
-    <tr ng-repeat="row in table">
-      <td>{{row.dateInstance}}</td>
-      <td>{{row.weightValue}}</td>
-      <td>{{row.activityValue}}</td>
-    </tr>
-  </table>
+
 </div>

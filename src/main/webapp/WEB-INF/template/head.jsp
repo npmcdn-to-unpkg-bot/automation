@@ -14,7 +14,7 @@
 
 <link rel="shortcut icon" href="<c:url value="/resources/images/favicon.ico" />" type="image/x-icon" /> --%>
 
-<title>${ pageTitle }<c:if test="${ not empty pageTitle }"> : </c:if>automation</title>
+<title>${ pageTitle }<c:if test="${ not empty pageTitle }"> : </c:if>Automation</title>
 
 <!-- jquery -->
 <link type="text/css" media="screen" rel="stylesheet" href="<c:url value="/resources/bower_components/jquery-ui/themes/base/jquery-ui.min.css" />" />
