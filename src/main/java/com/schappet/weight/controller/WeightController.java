@@ -68,7 +68,7 @@ public class WeightController extends AbstractWeightController {
     
 //
 
-    @RequestMapping(value = {"lastMonths/{number}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = {"last/{number}/months"}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<WeightView> latestMonths(@PathVariable("number") Integer count) {
     	//[ { "date": "2015-04-08 05:19:00", "value": "191.35" } ]

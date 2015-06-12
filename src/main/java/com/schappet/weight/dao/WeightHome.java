@@ -62,24 +62,17 @@ public class WeightHome extends GenericDao<Weight> implements WeightService {
 
 	@Override
 	public List<Weight> lastNMonths(int personId, int count) {
-		List<String> days = new ArrayList<String>();
-				
-		for (String day : days) {
-			
-		}
+		
 		Disjunction or = Restrictions.disjunction();
 		
 	    Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Weight.class);
 	    criteria.add(Restrictions.eq("personId", personId));
-	    //TODO: Format Date compare One Day to One Day, not Timestamp to timestamp
-	     //criteria.addOrder(Order.desc("weightInDate"));
 	    for (int i = 0 ; i <= count ; i++) {
 
 	    	
 			Calendar calendar = Calendar.getInstance(); // this would default to now
 			calendar.add(Calendar.DAY_OF_MONTH, -( i * 30 )) ;
-			log.debug("Date: " + shortDate.format(calendar.getTime()) );
-			days.add(shortDate.format(calendar.getTime()));
+		
 			Conjunction and = Restrictions.conjunction();	
 			and.add(Restrictions.ge("weightInDate", calendar.getTime()));
 			calendar.add(Calendar.DAY_OF_MONTH, 1);
@@ -90,7 +83,7 @@ public class WeightHome extends GenericDao<Weight> implements WeightService {
 		
 	    criteria.add(or);
 	     
-	    //criteria.setMaxResults(count < 50 ? count : 50);
+	    criteria.setMaxResults(count < 12 ? count : 12);
 	    return criteria.list();
 		 
 	}
