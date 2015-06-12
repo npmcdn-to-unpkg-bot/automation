@@ -70,8 +70,8 @@ public class DefaultController {
     @ResponseBody
     public SummaryDetails tableView() {
     
-    	List<Weight> list = weightDaoService.getWeightService().latest(DEFAULT_PERSON, 7);
-    	List<Activity> aList = weightDaoService.getActivityService().latest(DEFAULT_PERSON, 7);
+    	List<Weight> list = weightDaoService.getWeightService().lastNMonths(DEFAULT_PERSON, 7);
+    	List<Activity> aList = weightDaoService.getActivityService().lastNMonths(DEFAULT_PERSON, 7);
     	SummaryDetails sd = new SummaryDetails(list, aList);
     	
     	return sd;

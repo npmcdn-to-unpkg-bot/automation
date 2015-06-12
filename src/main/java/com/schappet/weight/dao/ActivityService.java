@@ -15,4 +15,6 @@ public interface ActivityService extends GenericDaoInterface<Activity> {
 
 	public List<Activity> latest(int defaultPerson, int i);
 
+	List<Activity> lastNMonths(int personId, int count);
+
 }

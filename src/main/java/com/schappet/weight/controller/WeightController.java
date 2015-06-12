@@ -105,8 +105,8 @@ public class WeightController extends AbstractWeightController {
     public C3 last30C3()
     {
     	//[ { "date": "2015-04-08 05:19:00", "value": "191.35" } ]
-    	List<Weight> list = weightDaoService.getWeightService().latest(DEFAULT_PERSON,30);
-    	List<Activity> aList = weightDaoService.getActivityService().latest(DEFAULT_PERSON,30);
+    	List<Weight> list = weightDaoService.getWeightService().lastNMonths(DEFAULT_PERSON,7);
+    	List<Activity> aList = weightDaoService.getActivityService().lastNMonths(DEFAULT_PERSON,7);
     	Map<String,Float[]> tempMap = new HashMap<String, Float[]>();
     	String date = "";
     	

@@ -67,6 +67,16 @@ public class WeightHome extends GenericDao<Weight> implements WeightService {
 		
 	    Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Weight.class);
 	    criteria.add(Restrictions.eq("personId", personId));
+	    
+		Calendar calendar1 = Calendar.getInstance(); // this would default to now
+		calendar1.add(Calendar.DAY_OF_MONTH, -( 3 )) ;
+
+		Conjunction and1 = Restrictions.conjunction();	
+		and1.add(Restrictions.ge("weightInDate", calendar1.getTime()));
+		calendar1.add(Calendar.DAY_OF_MONTH, 3);
+		and1.add(Restrictions.le("weightInDate", calendar1.getTime()));
+		or.add(and1);
+	    
 	    for (int i = 0 ; i <= count ; i++) {
 
 	    	
