@@ -9,6 +9,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Conjunction;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -61,21 +63,32 @@ public class WeightHome extends GenericDao<Weight> implements WeightService {
 	@Override
 	public List<Weight> lastNMonths(int personId, int count) {
 		List<String> days = new ArrayList<String>();
-		for (int i = 0 ; i <= count ; i++) {
-			Calendar calendar = Calendar.getInstance(); // this would default to now
-			calendar.add(Calendar.DAY_OF_MONTH, -( i * 30 )) ;
-			log.debug("Date: " + shortDate.format(calendar.getTime()) );
-			days.add(shortDate.format(calendar.getTime()));
-		}
 				
 		for (String day : days) {
 			
 		}
+		Disjunction or = Restrictions.disjunction();
+		
 	    Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Weight.class);
 	    criteria.add(Restrictions.eq("personId", personId));
 	    //TODO: Format Date compare One Day to One Day, not Timestamp to timestamp
 	     //criteria.addOrder(Order.desc("weightInDate"));
-	    criteria.add(Restrictions.in("weightInDate", days));
+	    for (int i = 0 ; i <= count ; i++) {
+
+	    	
+			Calendar calendar = Calendar.getInstance(); // this would default to now
+			calendar.add(Calendar.DAY_OF_MONTH, -( i * 30 )) ;
+			log.debug("Date: " + shortDate.format(calendar.getTime()) );
+			days.add(shortDate.format(calendar.getTime()));
+			Conjunction and = Restrictions.conjunction();	
+			and.add(Restrictions.ge("weightInDate", calendar.getTime()));
+			calendar.add(Calendar.DAY_OF_MONTH, 1);
+			and.add(Restrictions.le("weightInDate", calendar.getTime()));
+			
+	    	or.add(and);
+		}
+		
+	    criteria.add(or);
 	     
 	    //criteria.setMaxResults(count < 50 ? count : 50);
 	    return criteria.list();

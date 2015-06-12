@@ -8,7 +8,7 @@
 	<div class="panel-heading">
 		<h1 class="panel-title">Welcome to automation</h1>
 	</div>
-	  <div  id="grid1"  ui-grid="{ data: data }" class="grid"></div>
+	  <div  id="grid1"   class="UIParentGrid grid" ui-grid-auto-resize ui-grid="grid1"></div>
 	
 
 </div>
