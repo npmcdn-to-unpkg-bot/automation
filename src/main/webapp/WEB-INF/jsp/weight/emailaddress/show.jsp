@@ -19,7 +19,7 @@
     <tr>
         <th>Password</th>
         <td>
-            ${emailAddress.password}
+            HIDDEN
         </td>
     </tr>
 </table>

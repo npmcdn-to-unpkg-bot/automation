@@ -28,6 +28,7 @@ import com.schappet.spring.DataTableHeader;
 import com.schappet.spring.GenericDaoListOptions;
 import com.schappet.spring.SortColumn;
 import com.schappet.util.DataTable;
+import com.schappet.util.PasswordTools;
 import com.schappet.weight.domain.Person;
 
 /**
@@ -221,7 +222,6 @@ public class PersonController extends AbstractWeightController {
 
     @RequestMapping( value = "save", method = RequestMethod.POST )
     public String save( @Valid @ModelAttribute( "person" ) Person person, BindingResult result, Model model ) {
-
 
 
 		if (result.hasErrors()) { 

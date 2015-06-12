@@ -28,6 +28,7 @@ import com.schappet.spring.DataTableHeader;
 import com.schappet.spring.GenericDaoListOptions;
 import com.schappet.spring.SortColumn;
 import com.schappet.util.DataTable;
+import com.schappet.util.PasswordTools;
 import com.schappet.weight.domain.EmailAddress;
 
 /**
@@ -216,6 +217,10 @@ public class EmailAddressController extends AbstractWeightController {
     @RequestMapping( value = "save", method = RequestMethod.POST )
     public String save( @Valid @ModelAttribute( "emailAddress" ) EmailAddress emailAddress, BindingResult result, Model model ) {
 
+
+    	String plainText = emailAddress.getPassword();
+    	PasswordTools ptools = new PasswordTools();
+    	emailAddress.setPassword(ptools.hashPassword(plainText));
 
 
 		if (result.hasErrors()) { 

@@ -24,7 +24,7 @@
       <spring:bind path="password">        
 	     <div class="form-group ${status.error ? 'has-error' : ''}">
 	      <label for="password">Password</label>
-	 	      <form:input path="password"  class="form-control"/>
+	 	      <form:password path="password"  class="form-control"/>
 	 	      <form:errors path="password" class="help-block"/>
 	     </div>
 	</spring:bind>	
