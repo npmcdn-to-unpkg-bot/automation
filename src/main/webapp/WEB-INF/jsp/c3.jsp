@@ -28,17 +28,16 @@ var vitals = c3.generate({
        
    },
 	axis: {
-		
+		y2: {
+	        show: true
+	    },
 	    x: {
 	        type: 'timeseries',
 	        tick: {
 	            format: '%Y-%m-%d'
-	       },
-	   	y2: {
-	        show: true
+	       }
+	   	
 	    }
-	    
-   	}
 	}
 });
 

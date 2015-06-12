@@ -46,18 +46,19 @@ public class ActivityHome extends GenericDao<Activity> implements ActivityServic
 	
 	@Override
 	public List<Activity> lastNMonths(int personId, int count) {
-		
+		int EXTRA_DAYS = 5;
+
 		Disjunction or = Restrictions.disjunction();
 		
 	    Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Activity.class);
 	    criteria.add(Restrictions.eq("personId", personId));
 	    
 		Calendar calendar1 = Calendar.getInstance(); // this would default to now
-		calendar1.add(Calendar.DAY_OF_MONTH, -( 3 )) ;
+		calendar1.add(Calendar.DAY_OF_MONTH, -( EXTRA_DAYS )) ;
 	
 		Conjunction and1 = Restrictions.conjunction();	
 		and1.add(Restrictions.ge("activityDate", calendar1.getTime()));
-		calendar1.add(Calendar.DAY_OF_MONTH, 3);
+		calendar1.add(Calendar.DAY_OF_MONTH, EXTRA_DAYS);
 		and1.add(Restrictions.le("activityDate", calendar1.getTime()));
 		or.add(and1);
 	    
