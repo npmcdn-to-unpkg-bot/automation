@@ -9,10 +9,11 @@
 			</button>
 			
 			<c:url value="/" var="indexUrl" />
-			<a class="navbar-brand" href="${ indexUrl }">automation</a>
+			<a class="navbar-brand" href="${ indexUrl }">Automation</a>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
+		<!--  
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li><a href="<c:url value="/contact" />">Contact</a></li>
@@ -57,5 +58,6 @@
 				</li>
 			</ul>
 		</div>
+		 -->
 	</div>
 </nav>
