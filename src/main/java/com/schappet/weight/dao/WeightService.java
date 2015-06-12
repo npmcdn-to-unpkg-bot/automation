@@ -19,4 +19,6 @@ public interface WeightService extends GenericDaoInterface<Weight> {
 	
 	public List<Weight> between(int personId, Date start, Date end);
 
+	List<Weight> lastNMonths(int personId, int count);
+
 }

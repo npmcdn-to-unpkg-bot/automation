@@ -1,5 +1,8 @@
 package com.schappet.weight.dao;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +24,9 @@ import com.schappet.weight.domain.Weight;
 @Repository("com_schappet_weight_dao_WeightHome")
 @Transactional
 public class WeightHome extends GenericDao<Weight> implements WeightService {
+    protected final SimpleDateFormat shortDate = new SimpleDateFormat("yyyy-MM-dd");
 
+    
 	private static final Log log = LogFactory.getLog( WeightHome.class );
 
 	public WeightHome() {
@@ -52,6 +57,31 @@ public class WeightHome extends GenericDao<Weight> implements WeightService {
 		 
 	}
 
+
+	@Override
+	public List<Weight> lastNMonths(int personId, int count) {
+		List<String> days = new ArrayList<String>();
+		for (int i = 0 ; i <= count ; i++) {
+			Calendar calendar = Calendar.getInstance(); // this would default to now
+			calendar.add(Calendar.DAY_OF_MONTH, -( i * 30 )) ;
+			log.debug("Date: " + shortDate.format(calendar.getTime()) );
+			days.add(shortDate.format(calendar.getTime()));
+		}
+				
+		for (String day : days) {
+			
+		}
+	    Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Weight.class);
+	    criteria.add(Restrictions.eq("personId", personId));
+	    //TODO: Format Date compare One Day to One Day, not Timestamp to timestamp
+	     //criteria.addOrder(Order.desc("weightInDate"));
+	    criteria.add(Restrictions.in("weightInDate", days));
+	     
+	    //criteria.setMaxResults(count < 50 ? count : 50);
+	    return criteria.list();
+		 
+	}
+	
 	@Override
 	public List<Weight> between(int personId, Date start, Date end) {
 		  Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Weight.class);

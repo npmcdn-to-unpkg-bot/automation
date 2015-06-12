@@ -66,7 +66,25 @@ public class WeightController extends AbstractWeightController {
 
     private final SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy 'at' KK:mma");
     
+//
 
+    @RequestMapping(value = {"lastMonths/{number}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<WeightView> latestMonths(@PathVariable("number") Integer count) {
+    	//[ { "date": "2015-04-08 05:19:00", "value": "191.35" } ]
+    	List<Weight> wList = weightDaoService.getWeightService().lastNMonths(DEFAULT_PERSON, count);
+    	List<WeightView> list = new ArrayList<WeightView>();
+    	for (Weight w : wList) {
+    		WeightView wv = new WeightView();
+        	wv.setDate(w.getWeightInDate());
+        	wv.setValue(w.getValue());
+        	list.add(wv);
+    	}
+    	return list;
+    	
+    }
+
+    
     
     @RequestMapping(value = {"latest/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
