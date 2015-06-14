@@ -1,7 +1,5 @@
 package com.schappet.weight.dao;
 
-import java.text.SimpleDateFormat;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +17,16 @@ public class WeightDaoService {
     public ActivityService getActivityService() {
         return activityService;
     }
+
     
+
+	@Autowired
+	private SummaryTableService summaryTableService;
+
+    public SummaryTableService getSummaryTableService() {
+        return summaryTableService;
+    }
+
 	@Autowired
 	private EmailAddressService emailAddressService;
 

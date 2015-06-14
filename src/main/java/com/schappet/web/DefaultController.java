@@ -23,6 +23,7 @@ import com.schappet.spring.MappingNotFoundException;
 import com.schappet.weight.dao.WeightDaoService;
 //import com.schappet.exception.MappingNotFoundException;
 import com.schappet.weight.domain.Activity;
+import com.schappet.weight.domain.SummaryTable;
 import com.schappet.weight.domain.Weight;
 
 @Controller
@@ -75,6 +76,19 @@ public class DefaultController {
     	SummaryDetails sd = new SummaryDetails(list, aList);
     	
     	return sd;
+    	
+    }
+
+    
+    @RequestMapping(value = {"summarytable/"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<SummaryTable> summaryTable() {
+    
+    	List<SummaryTable> list = weightDaoService.getSummaryTableService().list();
+    	
+    	
+    	
+    	return list;
     	
     }
 
