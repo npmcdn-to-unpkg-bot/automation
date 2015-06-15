@@ -22,7 +22,13 @@ public class SummaryTable {
     private Integer personId;
     private String monthYear;
     private Float totalActivity;
+    private Float avgActivity;
+    private Float minActivity;
+    private Float maxActivity;
+    
     private Float avgWeight;
+    private Float minWeight;
+    private Float maxWeight;
     
         
     
@@ -72,6 +78,51 @@ public class SummaryTable {
 
 	public void setAvgWeight(Float avgWeight) {
 		this.avgWeight = avgWeight;
+	}
+
+    @Column(name = "avg_activity")
+	public Float getAvgActivity() {
+		return avgActivity;
+	}
+
+	public void setAvgActivity(Float avgActivity) {
+		this.avgActivity = avgActivity;
+	}
+
+    @Column(name = "min_activity")
+	public Float getMinActivity() {
+		return minActivity;
+	}
+
+	public void setMinActivity(Float minActivity) {
+		this.minActivity = minActivity;
+	}
+
+    @Column(name = "max_activity")
+    public Float getMaxActivity() {
+		return maxActivity;
+	}
+
+	public void setMaxActivity(Float maxActivity) {
+		this.maxActivity = maxActivity;
+	}
+
+    @Column(name = "min_weight")
+    public Float getMinWeight() {
+		return minWeight;
+	}
+
+	public void setMinWeight(Float minWeight) {
+		this.minWeight = minWeight;
+	}
+
+    @Column(name = "max_weight")
+    public Float getMaxWeight() {
+		return maxWeight;
+	}
+
+	public void setMaxWeight(Float maxWeight) {
+		this.maxWeight = maxWeight;
 	}
 
 

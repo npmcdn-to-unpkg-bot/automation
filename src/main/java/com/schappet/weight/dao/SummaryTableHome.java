@@ -1,5 +1,7 @@
 package com.schappet.weight.dao;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +36,9 @@ public class SummaryTableHome extends GenericDao<SummaryTable> implements Summar
 	}
 
 	
+	private SimpleDateFormat myFormat = new SimpleDateFormat("YYYY-MM");
+
+	
 	public SummaryTable findByPersonIdAndDate( Integer id , Date date) {
 		//vitalsDate
 		     Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(SummaryTable.class);
@@ -49,9 +54,14 @@ public class SummaryTableHome extends GenericDao<SummaryTable> implements Summar
 	@Override
 	public List<SummaryTable> latest(int personId, int count) {
 	
-	     Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Vitals.class);
+		Calendar calendar = Calendar.getInstance(); // this would default to now
+		calendar.add(Calendar.MONTH, -18) ;
+		
+		
+	     Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(SummaryTable.class);
 	     criteria.add(Restrictions.eq("personId", personId));
-	     criteria.addOrder(Order.desc("vitalsDate"));
+	     criteria.add(Restrictions.gt("monthYear", myFormat.format(calendar.getTime())));
+	     criteria.addOrder(Order.asc("monthYear"));
 	     criteria.setMaxResults(count < 50 ? count : 50);
 	     return criteria.list();
 	     

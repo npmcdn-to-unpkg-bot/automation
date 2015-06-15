@@ -84,7 +84,7 @@ public class DefaultController {
     @ResponseBody
     public List<SummaryTable> summaryTable() {
     
-    	List<SummaryTable> list = weightDaoService.getSummaryTableService().list();
+    	List<SummaryTable> list = weightDaoService.getSummaryTableService().latest(DEFAULT_PERSON, 50);
     	
     	
     	
