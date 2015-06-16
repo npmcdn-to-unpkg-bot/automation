@@ -1,7 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core"%>
+<div class="span2 well">
+     <h3>Latest Weight: <span id="current_weight">loading</span></h3>
+</div>
+<h3>Weight Chart Last 18 Months</h3>
 
-<h2>Weight Chart Last 30 Measures</h2>
-<h3>Weight and Activity</h3>
 <div id="chart"></div>
 <h3>BP and Pulse</h3>
 <div id="vitals"></div>
@@ -89,4 +91,28 @@ var vitals = c3.generate({
 	    }
 	}
 });
+
+
+
+function update() {
+	  console.log("running update");
+	  var url = './weight/latest/';
+	  $.ajax({
+	    type: 'GET',
+	    url: url,
+	    dataType: "json",
+	    
+	  
+	  }).done(function ( data ) {
+	    console.log("got data");
+	    console.log(data);
+	    var weight = data[0].value;
+	    console.log(weight);
+	    $("#current_weight").html(weight +"lbs @ " + data[0].date );
+	  });
+
+
+	}
+	
+update();
 </script>
