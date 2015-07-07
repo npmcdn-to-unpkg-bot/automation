@@ -23,7 +23,18 @@ var vitals = c3.generate({
        x: 'monthYear',
        url: 'vitals/summary/',
        mimeType: 'json',
-       
+       axes: {
+   		avgSystolic: 'y',
+        minSystolic: 'y',
+        maxSystolic: 'y',
+		avgPulse: 'y2',
+        minPulse: 'y2',
+        maxPulse: 'y2',
+         
+        avgDiatolic: 'y',
+        minDiatolic: 'y',
+        maxDiatoli: 'y',
+       },
        keys: {
          x: 'monthYear', // it's possible to specify 'x' when category axis
          value: [
@@ -42,7 +53,9 @@ var vitals = c3.generate({
  },
 
 	axis: {
-		
+		y2: {
+	        show: true
+	    },
 	    x: {
 	        type: 'category',
 	        tick: {
