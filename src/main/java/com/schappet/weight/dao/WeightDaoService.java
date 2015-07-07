@@ -27,6 +27,15 @@ public class WeightDaoService {
         return summaryTableService;
     }
 
+    
+	@Autowired
+	private SummaryVitlasService summaryVitalsService;
+
+    public SummaryVitlasService getSummaryVitalsService() {
+        return summaryVitalsService;
+    }
+    
+    
 	@Autowired
 	private EmailAddressService emailAddressService;
 

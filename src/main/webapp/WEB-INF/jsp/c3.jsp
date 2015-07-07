@@ -12,6 +12,7 @@
 
 var size = 250;
 
+
 var vitals = c3.generate({
 	 size: {
 	        height: size
@@ -19,24 +20,33 @@ var vitals = c3.generate({
 	    },
    bindto: '#vitals',
    data: {
-       x: 'x',
-       url: 'vitals/c3/last30/',
+       x: 'monthYear',
+       url: 'vitals/summary/',
        mimeType: 'json',
-       axes: {
-           systolic: 'y',
-           diastolic: 'y',
-           pulse: 'y2'
-       }
        
-   },
+       keys: {
+         x: 'monthYear', // it's possible to specify 'x' when category axis
+         value: [
+				'avgSystolic',
+                'minSystolic',
+                'maxSystolic',
+				'avgPulse',
+                'minPulse',
+                'maxPulse',
+                 
+                'avgDiatolic',
+                'minDiatolic',
+                'maxDiatolic'
+               ],
+     }
+ },
+
 	axis: {
-		y2: {
-	        show: true
-	    },
+		
 	    x: {
-	        type: 'timeseries',
+	        type: 'category',
 	        tick: {
-	            format: '%Y-%m-%d'
+	            format: '%Y-%m'
 	       }
 	   	
 	    }
@@ -45,7 +55,7 @@ var vitals = c3.generate({
 
 
 
-var vitals = c3.generate({
+var weight = c3.generate({
 	 size: {
 	        height: size
 	        
