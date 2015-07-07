@@ -27,9 +27,9 @@ var vitals = c3.generate({
    		avgSystolic: 'y',
         minSystolic: 'y',
         maxSystolic: 'y',
-		avgPulse: 'y2',
-        minPulse: 'y2',
-        maxPulse: 'y2',
+		avgPulse: 'y',
+        minPulse: 'y',
+        maxPulse: 'y',
          
         avgDiatolic: 'y',
         minDiatolic: 'y',
