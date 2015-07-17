@@ -11,8 +11,9 @@
 	    <property name="username" value="${database.username}" />
 	    <property name="password" value="${database.password}" />
 	</bean>
-	
-	<bean id="createSchema" class="com.schappet.spring.HsqlCreateSchema"  init-method="create">
+
+	<!-- 	
+	<bean id="createSchema" class="edu.uiowa.icts.spring.HsqlCreateSchema"  init-method="create">
 		<property name="schemas">
 			<list>
 				<value>WEIGHT</value>
@@ -20,15 +21,11 @@
 			</list>
 		</property>
 		<property name="dataSource" ref="dataSource"/>
-		<!-- 
-		<property name="url">
-			<value>jdbc:hsqldb:mem:testdb;sql.enforce_size=false</value>
-		</property>
-		 -->
-		<!-- import.sql -->
+
 	</bean>
-	
-	<bean depends-on="createSchema" id="sessionFactory" name="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+	 -->
+		<!-- 	depends-on="createSchema" -->
+	<bean  id="sessionFactory" name="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 	    <property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan">
 			<list>

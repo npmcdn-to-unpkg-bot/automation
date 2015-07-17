@@ -1,7 +1,8 @@
 package com.schappet.weight.dao;
 
-import com.schappet.spring.GenericDaoInterface;
 import com.schappet.weight.domain.EmailAddress;
+
+import edu.uiowa.icts.spring.GenericDaoInterface;
 
 
 
