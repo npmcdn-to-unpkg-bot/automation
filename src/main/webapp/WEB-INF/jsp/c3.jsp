@@ -53,15 +53,18 @@ var vitals = c3.generate({
  },
 
 	axis: {
-		y2: {
-	        show: true
-	    },
+	
 	    x: {
+	        label: 'Month-Year',
 	        type: 'category',
 	        tick: {
 	            format: '%Y-%m'
 	       }
 	   	
+	    },
+	    y: {
+	        label: 'mmhg & Pulse',
+	    
 	    }
 	}
 });
@@ -103,7 +106,18 @@ var weight = c3.generate({
 
 	axis: {
 		y2: {
-	        show: true
+	        show: true,
+	        
+		    label: 'Activity Points'
+		    
+		    
+	    },
+	    y: {
+	        show: true,
+	        
+		    label: 'Weight'
+		    
+		    
 	    },
 	    x: {
 	        type: 'category',
