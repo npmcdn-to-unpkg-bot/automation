@@ -2,8 +2,9 @@
 <div class="span2 well">
      <h3>Latest Weight: <span id="current_weight">loading</span></h3>
 </div>
+<h3>Weight Last 7 Days</h3>
+<div id="last5"></div>
 <h3>Weight Chart Last 18 Months</h3>
-
 <div id="chart"></div>
 <h3>BP and Pulse</h3>
 <div id="vitals"></div>
@@ -11,6 +12,48 @@
 <script type="text/javascript" >
 
 var size = 250;
+
+var smallSize = (size * .50);
+
+var currentWeight = c3.generate({
+	 size: {
+	        height: smallSize
+	        
+	    },
+   bindto: '#last5',
+   data: {
+       x: 'monthYear',
+       url: 'weight/last/7/',
+       mimeType: 'json',
+       axes: {
+   		weight: 'y',
+        
+       },
+       keys: {
+         x: 'date', // it's possible to specify 'x' when category axis
+         value: [
+				'value',
+                
+               ],
+     }
+ },
+
+	axis: {
+	
+	    x: {
+	        label: 'Date',
+	        type: 'category',
+	        tick: {
+	            format: '%Y-%m-%d %H:%M'
+	       }
+	   	
+	    },
+	    y: {
+	        label: 'Current Weight',
+	    
+	    }
+	}
+});
 
 
 var vitals = c3.generate({

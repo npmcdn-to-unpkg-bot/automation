@@ -42,20 +42,23 @@ public class WeightHome extends GenericDao<Weight> implements WeightService {
 	public Weight latest(int personId) {
 		
 	     Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Weight.class);
-	        criteria.add(Restrictions.eq("personId", personId));
-	        criteria.addOrder(Order.desc("weightInDate"));
-	        criteria.setMaxResults(1);
-	        return (Weight) criteria.uniqueResult();
+	     criteria.add(Restrictions.eq("personId", personId));
+	     criteria.addOrder(Order.desc("weightInDate"));
+	     criteria.setMaxResults(1);
+	     return (Weight) criteria.uniqueResult();
 		 
 	}
 
 	@Override
 	public List<Weight> latest(int personId, int count) {
-	     Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Weight.class);
-	     criteria.add(Restrictions.eq("personId", personId));
-	     criteria.addOrder(Order.desc("weightInDate"));
-	     criteria.setMaxResults(count < 50 ? count : 50);
-	     return criteria.list();
+	    Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Weight.class);
+	    criteria.add(Restrictions.eq("personId", personId));
+	    criteria.addOrder(Order.desc("weightInDate"));
+	    criteria.setMaxResults(count < 50 ? count : 50);
+	    @SuppressWarnings("unchecked")
+		List<Weight> list = criteria.list();
+	    java.util.Collections.reverse(list);
+	    return  list;
 		 
 	}
 

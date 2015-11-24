@@ -226,6 +226,31 @@ public class WeightController extends AbstractWeightController {
     }
     
 
+    @RequestMapping(value = {"last/{count}/"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<WeightView> lastN(
+    		@PathVariable(value="count") String count
+    		) {
+    	//[ { "date": "2015-04-08 05:19:00", "value": "191.35" } ]
+    	int i = 30;
+    	try {
+    		i = Integer.parseInt(count);
+    	} catch (NumberFormatException nfe) {
+    		i = 5;
+    	}
+    	List<Weight> list = weightDaoService.getWeightService().latest(DEFAULT_PERSON, i);
+    	
+    	List<WeightView> output = new ArrayList<WeightView>();
+    	for (Weight w: list) {
+    		WeightView wv = new WeightView();
+        	wv.setDate(w.getWeightInDate());
+        	wv.setValue(w.getValue());
+        	output.add(wv);
+    	}
+    	
+    	return output;
+    	
+    }
 
     
     @RequestMapping(value = {"last30/"}, produces = MediaType.APPLICATION_JSON_VALUE)
