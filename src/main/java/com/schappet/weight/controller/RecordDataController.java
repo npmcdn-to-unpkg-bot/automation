@@ -111,7 +111,7 @@ public class RecordDataController extends AbstractWeightController {
 				JSONObject json = new JSONObject(jsonStr);
 	    		recordActivity(json);
 			}
-			if (locationMapFileData.getOriginalFilename().startsWith("vitals_")) {
+			if (locationMapFileData.getOriginalFilename().startsWith("vitals_") || locationMapFileData.getOriginalFilename().equals("Jimmy.csv") ) {
 				log.debug("Recording vitals");
 	    		recordVitals(in);
 			}
@@ -148,11 +148,13 @@ public class RecordDataController extends AbstractWeightController {
     
     public void recordVitals(InputStream vitalsCsv) {
     	
+    	char delimiter = '	';
     	
     	Iterable<CSVRecord> records;
 		try {
 			records = CSVFormat.DEFAULT
 					.withHeader()//"Date","Time","SYS","DIA","Pulse","Comments","Empty")
+					.withDelimiter(delimiter)
 					.parse(newReader(vitalsCsv));
 			//records = CSVFormat.newFormat(',').parse(newReader(vitalsCsv));
 			log.debug("got records");
