@@ -18,7 +18,13 @@ public class WeightDaoService {
         return activityService;
     }
 
-    
+
+	@Autowired
+	private MetricService metricService;
+
+    public MetricService getMetricService() {
+        return metricService;
+    }
 
 	@Autowired
 	private SummaryTableService summaryTableService;
