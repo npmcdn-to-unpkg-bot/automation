@@ -6,4 +6,5 @@
 	<a class="list-group-item" href="<c:url value="/person/list" />" >Person List</a>
 	<a class="list-group-item" href="<c:url value="/vitals/list" />" >Vitals List</a>
 	<a class="list-group-item" href="<c:url value="/weight/list" />" >Weight List</a>
+	<a class="list-group-item" href="<c:url value="/metric/list" />" >Metric List</a>
 </div>

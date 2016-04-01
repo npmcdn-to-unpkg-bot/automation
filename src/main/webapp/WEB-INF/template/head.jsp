@@ -53,6 +53,8 @@
 <script type="text/javascript" src="<c:url value="/resources/js/init.js" />"></script>
 
   <script src="<c:url value="/resources/bower_components/angular/angular.js"/>"></script>
+  <script type="text/javascript" src="<c:url value="/resources/bower_components/angular-resource/angular-resource.min.js" />"></script>
+  
   <script src="<c:url value="/resources/js/controllers.js"/>"></script>
   
   <link type="text/css" media="screen" rel="stylesheet" href="<c:url value="/resources/bower_components/angular-ui-grid/ui-grid.css"/>" />
