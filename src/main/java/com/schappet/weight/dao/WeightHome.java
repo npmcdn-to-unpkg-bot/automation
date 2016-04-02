@@ -15,6 +15,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.schappet.weight.domain.Person;
 import com.schappet.weight.domain.Weight;
 
 import edu.uiowa.icts.spring.GenericDao;
@@ -39,10 +40,10 @@ public class WeightHome extends GenericDao<Weight> implements WeightService {
 		return (Weight) this.sessionFactory.getCurrentSession().get( Weight.class, id );
 	}
 
-	public Weight latest(int personId) {
+	public Weight latest(Person person) {
 		
 	     Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Weight.class);
-	     criteria.add(Restrictions.eq("personId", personId));
+	     criteria.add(Restrictions.eq("person", person));
 	     criteria.addOrder(Order.desc("weightInDate"));
 	     criteria.setMaxResults(1);
 	     return (Weight) criteria.uniqueResult();
@@ -50,9 +51,9 @@ public class WeightHome extends GenericDao<Weight> implements WeightService {
 	}
 
 	@Override
-	public List<Weight> latest(int personId, int count) {
+	public List<Weight> latest(Person person, int count) {
 	    Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Weight.class);
-	    criteria.add(Restrictions.eq("personId", personId));
+	    criteria.add(Restrictions.eq("person", person));
 	    criteria.addOrder(Order.desc("weightInDate"));
 	    criteria.setMaxResults(count < 50 ? count : 50);
 	    @SuppressWarnings("unchecked")
@@ -64,14 +65,14 @@ public class WeightHome extends GenericDao<Weight> implements WeightService {
 
 
 	@Override
-	public List<Weight> lastNMonths(int personId, int count) {
+	public List<Weight> lastNMonths(Person person, int count) {
 		
 		int EXTRA_DAYS = 5;
 		
 		Disjunction or = Restrictions.disjunction();
 		
 	    Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Weight.class);
-	    criteria.add(Restrictions.eq("personId", personId));
+	    criteria.add(Restrictions.eq("person", person));
 	    
 		Calendar calendar1 = Calendar.getInstance(); // this would default to now
 		calendar1.add(Calendar.DAY_OF_MONTH, -( EXTRA_DAYS )) ;
@@ -104,9 +105,9 @@ public class WeightHome extends GenericDao<Weight> implements WeightService {
 	}
 	
 	@Override
-	public List<Weight> between(int personId, Date start, Date end) {
+	public List<Weight> between(Person person, Date start, Date end) {
 		  Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Weight.class);
-		  criteria.add(Restrictions.eq("personId", personId));
+		  criteria.add(Restrictions.eq("person", person));
 		  criteria.add(Restrictions.between("weightInDate", start, end));
 
 		  criteria.addOrder(Order.desc("weightInDate"));

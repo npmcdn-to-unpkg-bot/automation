@@ -3,6 +3,7 @@ package com.schappet.weight.dao;
 import java.util.Date;
 import java.util.List;
 
+import com.schappet.weight.domain.Person;
 import com.schappet.weight.domain.Weight;
 
 import edu.uiowa.icts.spring.GenericDaoInterface;
@@ -15,11 +16,11 @@ public interface WeightService extends GenericDaoInterface<Weight> {
 
 	public Weight findById( Integer id );
 
-	public Weight latest(int personId);
-	public List<Weight> latest(int personId, int count);
+	public Weight latest(Person person);
+	public List<Weight> latest(Person person, int count);
 	
-	public List<Weight> between(int personId, Date start, Date end);
+	public List<Weight> between(Person person, Date start, Date end);
 
-	List<Weight> lastNMonths(int personId, int count);
+	List<Weight> lastNMonths(Person person, int count);
 
 }

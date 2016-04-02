@@ -10,6 +10,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.schappet.spring.AbstractSpringTestCase;
 import com.schappet.weight.domain.Activity;
+import com.schappet.weight.domain.Person;
 
 /**
  * Unit test Template
@@ -51,14 +52,19 @@ public class ActivityTest extends AbstractSpringTestCase {
 	
 	@Test
 	public void testDateTest2( ) throws Exception {
-		Activity test1 = new Activity(TEST2, PERSON_ID);
+		
+    	Person defaultPerson = weightDaoService.getPersonService().findById(PERSON_ID);
+
+		Activity test1 = new Activity(TEST2, defaultPerson);
 		String date = sdf.format(test1.getActivityDate());
 		assertEquals("Date is wrong", "2015-03-17", date);
 	}
 	
 	@Test
 	public void testDateTest1( ) throws Exception {
-		Activity test1 = new Activity(TEST1, PERSON_ID);
+		Person defaultPerson = weightDaoService.getPersonService().findById(PERSON_ID);
+
+		Activity test1 = new Activity(TEST1, defaultPerson);
 		String date = sdf.format(test1.getActivityDate());
 		assertEquals("Date is wrong", "2015-03-16", date);
 	}
@@ -66,7 +72,9 @@ public class ActivityTest extends AbstractSpringTestCase {
 	
 	@Test
 	public void testDateTest0( ) throws Exception {
-		Activity test1 = new Activity(TEST0, PERSON_ID);
+		Person defaultPerson = weightDaoService.getPersonService().findById(PERSON_ID);
+
+		Activity test1 = new Activity(TEST0, defaultPerson);
 		String date = sdf.format(test1.getActivityDate());
 		assertEquals("Date is wrong", "2015-03-01", date);
 	}
@@ -87,7 +95,9 @@ public class ActivityTest extends AbstractSpringTestCase {
 	
 	@Test
 	public void testValue( ) throws Exception {
-		Activity test1 = new Activity(TEST0, PERSON_ID);
+		Person defaultPerson = weightDaoService.getPersonService().findById(PERSON_ID);
+
+		Activity test1 = new Activity(TEST0, defaultPerson);
 		
 		assertEquals("Value is wrong", "1404", test1.getValue());
 	}

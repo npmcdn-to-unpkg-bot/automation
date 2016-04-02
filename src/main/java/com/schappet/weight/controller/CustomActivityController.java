@@ -1,5 +1,7 @@
 package com.schappet.weight.controller;
 
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -9,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,15 +23,16 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.schappet.util.DataTable;
-import com.schappet.web.C3Vitals;
-import com.schappet.weight.domain.SummaryVitals;
-import com.schappet.weight.domain.Vitals;
+import com.schappet.weight.domain.Activity;
+import com.schappet.weight.domain.Person;
 
 import edu.uiowa.icts.spring.GenericDaoListOptions;
 import edu.uiowa.icts.util.DataTableHeader;
@@ -39,104 +43,92 @@ import edu.uiowa.icts.util.SortColumn;
  * @since 04/11/2015 07:34:51 CDT
  */
 @Controller
-@RequestMapping( "/vitals" )
-public class VitalsController extends AbstractWeightController {
+@RequestMapping( "/customactivity" )
+public class CustomActivityController extends AbstractWeightController {
+	private static final int DEFAULT_PERSON = 1;
 
-    private static final Log log = LogFactory.getLog( VitalsController.class );
+	
+	private final SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy 'at' KK:mma");
+    private final SimpleDateFormat shortDate = new SimpleDateFormat("yyyy-MM-dd");
+    private final SimpleDateFormat googleDocDate = new SimpleDateFormat("M/d/YYYY");
+
+    private static final Log log = LogFactory.getLog( CustomActivityController.class );
 
     @RequestMapping( value = "list_alt", method = RequestMethod.GET )
     public String listNoScript(Model model) {
-        model.addAttribute( "vitalsList", weightDaoService.getVitalsService().list() );
-        return "/weight/vitals/list_alt";
+        model.addAttribute( "activityList", weightDaoService.getActivityService().list() );
+        return "/weight/activity/list_alt";
     }
 
     @RequestMapping(value = {"list", "", "/"}, method = RequestMethod.GET)
     public String list() {
-        return "/weight/vitals/list";
+        return "/weight/activity/list";
     }
 
-    private static final int DEFAULT_PERSON = 1;
+    private static final int BATCH_SIZE=200;
 
     
-    
-    @RequestMapping(value = {"summary/"}, produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @RequestMapping(value = {"last/{number}/months"}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<SummaryVitals> summaryTable() {
-    
-    	List<SummaryVitals> list = weightDaoService.getSummaryVitalsService().latest(DEFAULT_PERSON, 50);
+    public List<Activity> latestMonths(@PathVariable("number") Integer count) {
+    	Person defaultPerson = weightDaoService.getPersonService().findById(DEFAULT_PERSON);
     	
-    	
-    	
-    	return list;
+    	return weightDaoService.getActivityService().lastNMonths(defaultPerson, count);
     	
     }
-
-
-    @RequestMapping(value = {"c3/last30/"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    
+    
+    @RequestMapping(value = {"record/"}, method = RequestMethod.POST)
     @ResponseBody
-    public C3Vitals last30C3()
-    {
-    	
-    	List<Vitals> list = weightDaoService.getVitalsService().latest(DEFAULT_PERSON,30);
-    	
-    	Map<String,Integer[]> tempMap = new HashMap<String, Integer[]>();
-    	String date = "";
-    	
-    	if (list.size() > 0) {
-    		for (Vitals w: list) {
+    public String list(HttpServletRequest request,
+    		@RequestParam(value="file", required=true) CommonsMultipartFile locationMapFileData
+    		//,@RequestParam(value="data") String data
+    		) {
+    	//Map<String, String[]> names = request.getParameterMap();
+    	InputStream in ;
+    	String jsonStr;
+    	Person defaultPerson = weightDaoService.getPersonService().findById(DEFAULT_PERSON);
+		try {
+			 in = locationMapFileData.getInputStream();
+			jsonStr = IOUtils.toString(in, "UTF-8");
+			//log.debug("contents: " + jsonStr);
+    		String[] lines = jsonStr.split("\n");
+    		List<Activity> batch = new ArrayList<Activity>();
+    		for (String line : lines) {
+        		
+        		
+        		try {
+        			Activity a = new Activity(line, defaultPerson);
+        			if (a != null) 
+        				batch.add(a);
+        			if (batch.size() > BATCH_SIZE)  {
+        				weightDaoService.getActivityService().save(batch);
+        				batch.clear();
+        			}
+        						
+        		} catch (NumberFormatException nfe) {
+        			log.debug("skip");
+        		} catch (ArrayIndexOutOfBoundsException aio) {
+        			log.debug("skip");
+        		}
+        		
     			
-    			date = shortDate.format(w.getVitalsDate());
-    			
-    			Integer[] values = tempMap.get(date);
-    			if (values == null)
-    				values = new Integer[3];
-    			
-    			values[0] = w.getDiatolic();
-    			values[1] = w.getSystolic();
-    			values[2] = w.getPulse();
-    			
-    			//log.debug("date: " + date + " values: " + values);
-    			tempMap.put(date, values);
     		}
-//    		for (Activity a : aList) {
-//    			date = shortDate.format(a.getActivityDate());
-//    			Float[] values = tempMap.get(date);
-//    			if (values == null)
-//    				values = new Float[2];
-//    			values[1] = Float.parseFloat(a.getValue())  ;
-//    			tempMap.put(date, values);
-//    		}
-        	//return c3;
-    	} else {
-    		//log.debug("Start Date: " + startDate);
-    		//log.debug("End Date: " + endDate);
-    		//return null;
-    	}
-    	
-    	// tempMap to C3 List
-    	List<String> dates = new ArrayList<String>();
-    	List<Integer> diastolic = new ArrayList<Integer>();
-		List<Integer> systolic = new ArrayList<Integer>();
-		List<Integer> pulse = new ArrayList<Integer>();
-		C3Vitals c3 = new C3Vitals();
-    	for (String key : tempMap.keySet()) {
-            		
-       		dates.add(key);
-           	diastolic.add(tempMap.get(key)[0]);
-           	systolic.add(tempMap.get(key)[1]);
-           	pulse.add(tempMap.get(key)[2]);
-            	
-    	}
-    	c3.setX(dates);
-    	c3.setDiastolic(diastolic);
-    	c3.setSystolic(systolic);
-    	c3.setPulse(pulse);
-	
-    	return c3;
-    	
+    		if (batch.size()> 0)
+    			weightDaoService.getActivityService().save(batch);
+        	
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			log.error("error parsing json", e);
+		} 
+        return "done";
     }
-    
 
+
+    
+    
+    
 	@ResponseBody
 	@RequestMapping( value = "datatable" , produces = "application/json" )
 	public DataTable datatable( HttpServletRequest request, 
@@ -208,13 +200,13 @@ public class VitalsController extends AbstractWeightController {
 				options.setLikes( likes );
 			}
 
-			Integer count = weightDaoService.getVitalsService().count( options );
+			Integer count = weightDaoService.getActivityService().count( options );
 
             options.setLimit( limit );
             options.setStart( start );
             options.setSorts( sorts );
 
-            List<Vitals> vitalsList = weightDaoService.getVitalsService().list( options );
+            List<Activity> activityList = weightDaoService.getActivityService().list( options );
 
 			//ob.put( "draw", draw );
             dt.setDraw(draw);
@@ -224,32 +216,27 @@ public class VitalsController extends AbstractWeightController {
             dt.setRecordsTotal(count);
             List<LinkedHashMap<String, String>> data = new ArrayList<LinkedHashMap<String, String>>();
   
-			for( Vitals vitals : vitalsList ){
+			for( Activity activity : activityList ){
 				LinkedHashMap<String, String> row = new LinkedHashMap<String, String>();
+
 				for ( DataTableHeader header : headers ) {
 					String headerName = header.getName();
 					String dataName = header.getData();
 
-					if( StringUtils.equals( "vitalsId", headerName ) ){
-						row.put(dataName,""+ vitals.getVitalsId() );
+					if( StringUtils.equals( "activityId", headerName ) ){
+						row.put(dataName,""+ activity.getActivityId() );
 					} else if( StringUtils.equals( "personId", headerName ) ){
-						row.put(dataName,""+ vitals.getPerson().getLastName() + ", " + vitals.getPerson().getFirstName() );
-					} else if( StringUtils.equals( "vitalsDate", headerName ) ){
-						row.put(dataName,""+ vitals.getVitalsDate() );
-					} else if( StringUtils.equals( "systolic", headerName ) ){
-						row.put(dataName,""+ vitals.getSystolic() );
-					} else if( StringUtils.equals( "diatolic", headerName ) ){
-						row.put(dataName,""+ vitals.getDiatolic() );
-					} else if( StringUtils.equals( "pulse", headerName ) ){
-						row.put(dataName,""+ vitals.getPulse() );
-					} else if( StringUtils.equals( "comment", headerName ) ){
-						row.put(dataName,""+ vitals.getComment() );
+						row.put(dataName,"" + activity.getPerson().getLastName() + ", " + activity.getPerson().getFirstName() );
+					} else if( StringUtils.equals( "value", headerName ) ){
+						row.put(dataName,""+ activity.getValue() );
+					} else if( StringUtils.equals( "activityDate", headerName ) ){
+						row.put(dataName,""+ activity.getActivityDate() );
 					} else if( StringUtils.equals( "urls", headerName ) ) {
 						String urls = "";
 						if( StringUtils.equals( "list", display ) ){
-							urls += "<a href=\"show?"+"vitalsId="+vitals.getVitalsId()+"\"><span class=\"glyphicon glyphicon-eye-open\"></a>";
-							urls += "<a href=\"edit?"+"vitalsId="+vitals.getVitalsId()+"\"><span class=\"glyphicon glyphicon-pencil\"></a>";
-							urls += "<a href=\"delete?"+"vitalsId="+vitals.getVitalsId()+"\"><span class=\"glyphicon glyphicon-trash\"></a>";
+							urls += "<a href=\"/activity/show?"+"activityId="+activity.getActivityId()+"\"><span class=\"glyphicon glyphicon-eye-open\"></a>";
+							urls += "<a href=\"/activity/edit?"+"activityId="+activity.getActivityId()+"\"><span class=\"glyphicon glyphicon-pencil\"></a>";
+							urls += "<a href=\"/activity/delete?"+"activityId="+activity.getActivityId()+"\"><span class=\"glyphicon glyphicon-trash\"></a>";
 						} else {
 
 						}
@@ -265,7 +252,7 @@ public class VitalsController extends AbstractWeightController {
 
 
 		} catch ( Exception e ) {
-			log.error( "error builing datatable json object for Vitals", e );
+			log.error( "error builing datatable json object for Activity", e );
 			try {
 				String stackTrace = e.getMessage() + String.valueOf( '\n' );
 				for ( StackTraceElement ste : e.getStackTrace() ) {
@@ -278,7 +265,7 @@ public class VitalsController extends AbstractWeightController {
 				error.setError( stackTrace );
 				return error;
 			} catch ( JSONException je ) {
-				log.error( "error building json error object for Vitals", je );
+				log.error( "error building json error object for Activity", je );
 			}
 		}
 		
@@ -287,58 +274,59 @@ public class VitalsController extends AbstractWeightController {
 
     @RequestMapping( value = "add", method = RequestMethod.GET )
     public String add( Model model ) {
-        model.addAttribute( "vitals", new Vitals() );
+        model.addAttribute( "activity", new Activity() );
 
-        return "/weight/vitals/edit";
+        return "/weight/activity/edit";
     }
 
     @RequestMapping( value = "edit", method = RequestMethod.GET )
-    public String edit( ModelMap model, @RequestParam( value = "vitalsId" ) Integer vitalsId ) {
+    public String edit( ModelMap model, @RequestParam( value = "activityId" ) Integer activityId ) {
 
 
-        model.addAttribute( "vitals", weightDaoService.getVitalsService().findById( vitalsId ) );
-        return "/weight/vitals/edit";
+        model.addAttribute( "activity", weightDaoService.getActivityService().findById( activityId ) );
+        return "/weight/activity/edit";
     }
 
     @RequestMapping( value = "show", method = RequestMethod.GET )
-    public String show( ModelMap model, @RequestParam( value = "vitalsId" ) Integer vitalsId ) {
+    public String show( ModelMap model, @RequestParam( value = "activityId" ) Integer activityId ) {
 
-        model.addAttribute( "vitals", weightDaoService.getVitalsService().findById( vitalsId ) );
-        return "/weight/vitals/show";
+        model.addAttribute( "activity", weightDaoService.getActivityService().findById( activityId ) );
+        return "/weight/activity/show";
     }
 
     @RequestMapping( value = "save", method = RequestMethod.POST )
-    public String save( @Valid @ModelAttribute( "vitals" ) Vitals vitals, BindingResult result, Model model ) {
+    public String save( @Valid @ModelAttribute( "activity" ) Activity activity, BindingResult result, Model model ) {
 
 
 
 		if (result.hasErrors()) { 
 			
-			return "/weight/vitals/edit"; 
+			return "/weight/activity/edit"; 
 		} else {
+			
 			try {
-				weightDaoService.getVitalsService().saveOrUpdate( vitals );
+				weightDaoService.getActivityService().saveOrUpdate( activity );
 			} catch (NonUniqueObjectException e) {
 				log.debug("Merging Results");
-				weightDaoService.getVitalsService().merge( vitals );
+				weightDaoService.getActivityService().merge( activity );
 			}
-	        return "redirect:/vitals/list";
+	        return "redirect:/activity/list";
 		}
     }
 
     @RequestMapping( value = "delete", method = RequestMethod.GET )
-    public String confirmDelete( ModelMap model, @RequestParam( value = "vitalsId" ) Integer vitalsId ) {
+    public String confirmDelete( ModelMap model, @RequestParam( value = "activityId" ) Integer activityId ) {
 
-        model.addAttribute( "vitals", weightDaoService.getVitalsService().findById( vitalsId ) );
-        return "/weight/vitals/delete";
+        model.addAttribute( "activity", weightDaoService.getActivityService().findById( activityId ) );
+        return "/weight/activity/delete";
     }
 
     @RequestMapping( value = "delete", method = RequestMethod.POST )
-    public String doDelete( ModelMap model, @RequestParam( value = "submit" ) String submitButtonValue, @RequestParam( value = "vitalsId" ) Integer vitalsId ) {
+    public String doDelete( ModelMap model, @RequestParam( value = "submit" ) String submitButtonValue, @RequestParam( value = "activityId" ) Integer activityId ) {
 
         if ( StringUtils.equalsIgnoreCase( submitButtonValue, "yes" ) ) {
-            weightDaoService.getVitalsService().delete( weightDaoService.getVitalsService().findById( vitalsId ) );
+            weightDaoService.getActivityService().delete( weightDaoService.getActivityService().findById( activityId ) );
         }
-        return "redirect:/vitals/list";
+        return "redirect:/activity/list";
     }
 }

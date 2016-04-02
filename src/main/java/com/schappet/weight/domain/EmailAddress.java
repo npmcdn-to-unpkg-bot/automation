@@ -26,6 +26,9 @@ public class EmailAddress {
         private String address;
         private String password;
 
+        public String toString() {
+        	return this.address;
+        }
 
     /*****emailId*****/
     @javax.persistence.SequenceGenerator(  name="gen",  sequenceName="weight.seqnum",allocationSize=1)

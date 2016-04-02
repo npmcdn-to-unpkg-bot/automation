@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.schappet.weight.domain.Activity;
+import com.schappet.weight.domain.Person;
 
 import edu.uiowa.icts.spring.GenericDao;
 
@@ -46,13 +47,13 @@ public class ActivityHome extends GenericDao<Activity> implements ActivityServic
 	
 	
 	@Override
-	public List<Activity> lastNMonths(int personId, int count) {
+	public List<Activity> lastNMonths(Person person, int count) {
 		int EXTRA_DAYS = 5;
 
 		Disjunction or = Restrictions.disjunction();
 		
 	    Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Activity.class);
-	    criteria.add(Restrictions.eq("personId", personId));
+	    criteria.add(Restrictions.eq("person", person));
 	    
 		Calendar calendar1 = Calendar.getInstance(); // this would default to now
 		calendar1.add(Calendar.DAY_OF_MONTH, -( EXTRA_DAYS )) ;

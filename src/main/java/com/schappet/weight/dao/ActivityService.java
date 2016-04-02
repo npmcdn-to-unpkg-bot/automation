@@ -3,6 +3,7 @@ package com.schappet.weight.dao;
 import java.util.List;
 
 import com.schappet.weight.domain.Activity;
+import com.schappet.weight.domain.Person;
 
 import edu.uiowa.icts.spring.GenericDaoInterface;
 
@@ -16,6 +17,6 @@ public interface ActivityService extends GenericDaoInterface<Activity> {
 
 	public List<Activity> latest(int defaultPerson, int i);
 
-	List<Activity> lastNMonths(int personId, int count);
+	List<Activity> lastNMonths(Person person, int count);
 
 }

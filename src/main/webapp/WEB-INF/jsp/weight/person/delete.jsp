@@ -2,27 +2,29 @@
 
 <h2>Delete Person</h2>
 
-<form method="post" action="delete">
+<c:url value="/person/delete" var="formActionUrl" />
+
+<form:form method="post" action="${ formActionUrl }">
     <fieldset>
-        <legend>Are you sure you want to delete this Person?</legend>
+        <legend>Are you sure you want to delete this person?</legend>
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
-                    <th>PersonId</th>
-                    <th>EmailId</th>
+                    <th>Person Id</th>
                     <th>Password</th>
-                    <th>FirstName</th>
-                    <th>LastName</th>
-                    <th>MiddleName</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Middle Name</th>
+                    <th>Activitys</th>
+                    <th>Vitalss</th>
+                    <th>Weights</th>
+                    <th>Email Address</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>
                         ${ person.personId }
-                    </td>
-                    <td>
-                        ${ person.emailId }
                     </td>
                     <td>
                         ${ person.password }
@@ -36,6 +38,30 @@
                     <td>
                         ${ person.middleName }
                     </td>
+                    <td>
+                        <ul>
+                            <c:forEach items="${ person.activitys }" var="item" varStatus="itemStatus">
+                                <li>${ item.activityId }</li>
+                            </c:forEach>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <c:forEach items="${ person.vitalss }" var="item" varStatus="itemStatus">
+                                <li>${ item.vitalsId }</li>
+                            </c:forEach>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <c:forEach items="${ person.weights }" var="item" varStatus="itemStatus">
+                                <li>${ item.weightId }</li>
+                            </c:forEach>
+                        </ul>
+                    </td>
+                    <td>
+                        ${ person.emailAddress }
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -46,4 +72,4 @@
         <input type="hidden" name="personId" value="${ person.personId }" />
 
     </fieldset>
-</form>
+</form:form>

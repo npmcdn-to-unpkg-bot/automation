@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.schappet.weight.domain.Person;
+import com.schappet.weight.domain.PersonOld;
 
 import edu.uiowa.icts.spring.GenericDao;
 

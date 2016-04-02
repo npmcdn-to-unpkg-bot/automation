@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.schappet.weight.domain.Activity;
+import com.schappet.weight.domain.Person;
 import com.schappet.weight.domain.Vitals;
 import com.schappet.weight.domain.Weight;
 
@@ -147,6 +148,7 @@ public class RecordDataController extends AbstractWeightController {
 
     
     public void recordVitals(InputStream vitalsCsv) {
+    	Person defaultPerson = weightDaoService.getPersonService().findById(DEFAULT_PERSON);
     	
     	char delimiter = '	';
     	
@@ -182,7 +184,7 @@ public class RecordDataController extends AbstractWeightController {
 				    	    v.setSystolic(Integer.parseInt(sys));
 				    	    v.setVitalsDate(dateTime);
 				    	    v.setPulse(Integer.parseInt(pulse));
-				    	    v.setPersonId(DEFAULT_PERSON);
+				    	    v.setPerson(defaultPerson);
 				    	    batch.add(v);
 			    	    } catch (NumberFormatException nfe) {
 			    	    	//skip
@@ -251,7 +253,8 @@ public class RecordDataController extends AbstractWeightController {
 		}
 		log.debug("Date : " + date + " : Value: " + value);
 		Weight w = new Weight();
-		w.setPersonId(DEFAULT_PERSON);
+		Person defaultPerson = weightDaoService.getPersonService().findById(DEFAULT_PERSON);
+		w.setPerson(defaultPerson);
 		w.setWeightInDate(date);
 		w.setValue(""+value);
 		weightDaoService.getWeightService().save(w);
@@ -274,7 +277,8 @@ public class RecordDataController extends AbstractWeightController {
 		log.debug("Date : " + dateStr + " : Value: " + points);
 		Activity a = new Activity();
 		a.setActivityDate(date);
-		a.setPersonId(personId);
+		Person p = weightDaoService.getPersonService().findById(personId);
+		a.setPerson(p);
 		a.setValue(points);
 		weightDaoService.getActivityService().save(a);
 

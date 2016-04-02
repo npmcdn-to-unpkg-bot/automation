@@ -33,6 +33,7 @@ import com.schappet.util.DataTable;
 import com.schappet.web.C3;
 import com.schappet.web.WeightView;
 import com.schappet.weight.domain.Activity;
+import com.schappet.weight.domain.Person;
 import com.schappet.weight.domain.Weight;
 
 import edu.uiowa.icts.spring.GenericDaoListOptions;
@@ -49,8 +50,10 @@ public class WeightController extends AbstractWeightController {
 
     private static final Log log = LogFactory.getLog( WeightController.class );
 
-    
     private static final int DEFAULT_PERSON = 1;
+
+
+    
     
     @RequestMapping( value = "list_alt", method = RequestMethod.GET )
     public String listNoScript(Model model) {
@@ -71,7 +74,9 @@ public class WeightController extends AbstractWeightController {
     @ResponseBody
     public List<WeightView> latestMonths(@PathVariable("number") Integer count) {
     	//[ { "date": "2015-04-08 05:19:00", "value": "191.35" } ]
-    	List<Weight> wList = weightDaoService.getWeightService().lastNMonths(DEFAULT_PERSON, count);
+    	Person defaultPerson = weightDaoService.getPersonService().findById(DEFAULT_PERSON);
+
+    	List<Weight> wList = weightDaoService.getWeightService().lastNMonths(defaultPerson, count);
     	List<WeightView> list = new ArrayList<WeightView>();
     	for (Weight w : wList) {
     		WeightView wv = new WeightView();
@@ -89,7 +94,9 @@ public class WeightController extends AbstractWeightController {
     @ResponseBody
     public List<WeightView> latest() {
     	//[ { "date": "2015-04-08 05:19:00", "value": "191.35" } ]
-    	Weight w = weightDaoService.getWeightService().latest(DEFAULT_PERSON);
+    	Person defaultPerson = weightDaoService.getPersonService().findById(DEFAULT_PERSON);
+
+    	Weight w = weightDaoService.getWeightService().latest(defaultPerson);
     	WeightView wv = new WeightView();
     	wv.setDate(w.getWeightInDate());
     	wv.setValue(w.getValue());
@@ -103,9 +110,11 @@ public class WeightController extends AbstractWeightController {
     @ResponseBody
     public C3 last30C3()
     {
+    	Person defaultPerson = weightDaoService.getPersonService().findById(DEFAULT_PERSON);
+
     	//[ { "date": "2015-04-08 05:19:00", "value": "191.35" } ]
-    	List<Weight> list = weightDaoService.getWeightService().lastNMonths(DEFAULT_PERSON,7);
-    	List<Activity> aList = weightDaoService.getActivityService().lastNMonths(DEFAULT_PERSON,7);
+    	List<Weight> list = weightDaoService.getWeightService().lastNMonths(defaultPerson,7);
+    	List<Activity> aList = weightDaoService.getActivityService().lastNMonths(defaultPerson,7);
     	Map<String,Float[]> tempMap = new HashMap<String, Float[]>();
     	String date = "";
     	
@@ -166,8 +175,10 @@ public class WeightController extends AbstractWeightController {
     		@DateTimeFormat(pattern="yyyy-MM-dd") Date endDate
     		
     		) {
+    	Person defaultPerson = weightDaoService.getPersonService().findById(DEFAULT_PERSON);
+
     	//[ { "date": "2015-04-08 05:19:00", "value": "191.35" } ]
-    	List<Weight> list = weightDaoService.getWeightService().between(DEFAULT_PERSON,startDate, endDate);
+    	List<Weight> list = weightDaoService.getWeightService().between(defaultPerson,startDate, endDate);
     	C3 c3 = new C3();
     	if (list.size() > 0) {
     		List<Float> ints = new ArrayList<Float>();
@@ -204,7 +215,9 @@ public class WeightController extends AbstractWeightController {
     		
     		) {
     	//[ { "date": "2015-04-08 05:19:00", "value": "191.35" } ]
-    	List<Weight> list = weightDaoService.getWeightService().between(DEFAULT_PERSON,startDate, endDate);
+    	Person defaultPerson = weightDaoService.getPersonService().findById(DEFAULT_PERSON);
+
+    	List<Weight> list = weightDaoService.getWeightService().between(defaultPerson,startDate, endDate);
     	if (list.size() > 0) {
     		List<WeightView> output = new ArrayList<WeightView>();
         	for (Weight w: list) {
@@ -238,7 +251,10 @@ public class WeightController extends AbstractWeightController {
     	} catch (NumberFormatException nfe) {
     		i = 5;
     	}
-    	List<Weight> list = weightDaoService.getWeightService().latest(DEFAULT_PERSON, i);
+    	
+    	Person defaultPerson = weightDaoService.getPersonService().findById(DEFAULT_PERSON);
+
+    	List<Weight> list = weightDaoService.getWeightService().latest(defaultPerson, i);
     	
     	List<WeightView> output = new ArrayList<WeightView>();
     	for (Weight w: list) {
@@ -256,8 +272,10 @@ public class WeightController extends AbstractWeightController {
     @RequestMapping(value = {"last30/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<WeightView> last30() {
+    	Person defaultPerson = weightDaoService.getPersonService().findById(DEFAULT_PERSON);
+
     	//[ { "date": "2015-04-08 05:19:00", "value": "191.35" } ]
-    	List<Weight> list = weightDaoService.getWeightService().latest(DEFAULT_PERSON, 30);
+    	List<Weight> list = weightDaoService.getWeightService().latest(defaultPerson, 30);
     	
     	List<WeightView> output = new ArrayList<WeightView>();
     	for (Weight w: list) {
@@ -299,7 +317,7 @@ public class WeightController extends AbstractWeightController {
 //    		}
 //    		log.debug("Date : " + date + " : Value: " + value);
 //    		Weight w = new Weight();
-//    		w.setPersonId(DEFAULT_PERSON);
+//    		w.setPersonId(defaultPerson);
 //    		w.setWeightInDate(date);
 //    		w.setValue(""+value);
 //    		weightDaoService.getWeightService().save(w);
@@ -407,7 +425,7 @@ public class WeightController extends AbstractWeightController {
 					if( StringUtils.equals( "weightId", headerName ) ){
 						row.put(dataName,""+ weight.getWeightId() );
 					} else if( StringUtils.equals( "personId", headerName ) ){
-						row.put(dataName,""+ weight.getPersonId() );
+						row.put(dataName,""+ weight.getPerson().getLastName() + ", " + weight.getPerson().getFirstName() );
 					} else if( StringUtils.equals( "value", headerName ) ){
 						row.put(dataName,""+ weight.getValue() );
 					} else if( StringUtils.equals( "weightInDate", headerName ) ){

@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.schappet.weight.dao.WeightDaoService;
 //import com.schappet.exception.MappingNotFoundException;
 import com.schappet.weight.domain.Activity;
+import com.schappet.weight.domain.Person;
 import com.schappet.weight.domain.SummaryTable;
 import com.schappet.weight.domain.Weight;
 
@@ -72,8 +73,10 @@ public class DefaultController {
     @ResponseBody
     public SummaryDetails tableView() {
     
-    	List<Weight> list = weightDaoService.getWeightService().lastNMonths(DEFAULT_PERSON, 7);
-    	List<Activity> aList = weightDaoService.getActivityService().lastNMonths(DEFAULT_PERSON, 7);
+    	Person defaultPerson = weightDaoService.getPersonService().findById(DEFAULT_PERSON);
+
+    	List<Weight> list = weightDaoService.getWeightService().lastNMonths(defaultPerson, 7);
+    	List<Activity> aList = weightDaoService.getActivityService().lastNMonths(defaultPerson, 7);
     	SummaryDetails sd = new SummaryDetails(list, aList);
     	
     	return sd;
@@ -85,6 +88,7 @@ public class DefaultController {
     @ResponseBody
     public List<SummaryTable> summaryTable() {
     
+
     	List<SummaryTable> list = weightDaoService.getSummaryTableService().latest(DEFAULT_PERSON, 50);
     	
     	

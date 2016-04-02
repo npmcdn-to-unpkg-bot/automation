@@ -11,24 +11,30 @@
 <table class="table table-bordered table-striped table-hover table-datatable">
     <thead>
         <tr>
-            <th>PersonId</th>
-            <th>EmailId</th>
+            <th>Person Id</th>
             <th>Password</th>
-            <th>FirstName</th>
-            <th>LastName</th>
-            <th>MiddleName</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Middle Name</th>
+            <th>Activitys</th>
+            <th>Vitalss</th>
+            <th>Weights</th>
+            <th>Email Address</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        <c:forEach items="${personList}" var="person"  varStatus="status">
+        <c:forEach items="${ personList }" var="person"  varStatus="status">
             <tr>
                 <td><a href="edit?personId=${person.personId}">${person.personId}</a></td>
-                <td>${person.emailId}</td>
                 <td>${person.password}</td>
                 <td>${person.firstName}</td>
                 <td>${person.lastName}</td>
                 <td>${person.middleName}</td>
+                <td>activitys</td>
+                <td>vitalss</td>
+                <td>weights</td>
+                <td>${person.emailAddress.emailId}</td>
                 <td>
                     <a href="edit?personId=${person.personId}">edit</a> 
                     <a href="show?personId=${person.personId}">view</a>
