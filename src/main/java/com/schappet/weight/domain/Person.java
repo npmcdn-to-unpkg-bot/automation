@@ -142,5 +142,10 @@ public class Person {
     public String getEmail() {
     	return emailAddress.getAddress();
     }
+    
+    @Transient
+    public String getFullName() {
+    	return lastName + ", " + firstName;
+    }
 
 }
