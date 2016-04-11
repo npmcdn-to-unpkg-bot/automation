@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -134,8 +135,11 @@ public class MetricController extends AbstractWeightController {
 	}
 
 	@ResponseBody
-    @RequestMapping( value = "homeip", method = RequestMethod.GET )
-    public String add( HttpServletRequest request ) {
+    @RequestMapping( value = "homeip/{source}", method = RequestMethod.GET )
+    public String add( 
+    		HttpServletRequest request, 
+    		@PathVariable(value="source") String source
+    	) {
     	Metric metric = new Metric();
     	metric.setDateAdded( new Date());
     	metric.setName("HOME_IP");
@@ -144,12 +148,17 @@ public class MetricController extends AbstractWeightController {
     	if (ipAddress == null) {  
     	   ipAddress = request.getRemoteAddr();  
     	}
+    	metric.setSource(source);
     	metric.setTextValue(ipAddress);
     	weightDaoService.getMetricService().saveOrUpdate( metric );
         return "SAVED";
     }
 
-
+	@ResponseBody
+    @RequestMapping( value = "homeip", method = RequestMethod.GET )
+    public String addWithoutSource(HttpServletRequest request) {
+		return add(request, "DEFAULT");
+	}
     
     @RequestMapping( value = "add", method = RequestMethod.GET )
     public String latestHomeIp( Model model ) {
