@@ -3,6 +3,7 @@ package com.schappet.weight.controller;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -24,10 +25,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.schappet.weight.domain.Metric;
+
 import edu.uiowa.icts.datatable.DataTable;
 import edu.uiowa.icts.datatable.DataTableColumn;
 import edu.uiowa.icts.datatable.DataTableRequest;
-import com.schappet.weight.domain.*;
 import edu.uiowa.icts.spring.GenericDaoListOptions;
 
 /**
@@ -131,13 +133,32 @@ public class MetricController extends AbstractWeightController {
 		
 	}
 
+	@ResponseBody
+    @RequestMapping( value = "homeip", method = RequestMethod.GET )
+    public String add( HttpServletRequest request ) {
+    	Metric metric = new Metric();
+    	metric.setDateAdded( new Date());
+    	metric.setName("HOME_IP");
+    	
+    	String ipAddress = request.getHeader("X-FORWARDED-FOR");  
+    	if (ipAddress == null) {  
+    	   ipAddress = request.getRemoteAddr();  
+    	}
+    	metric.setTextValue(ipAddress);
+    	weightDaoService.getMetricService().saveOrUpdate( metric );
+        return "SAVED";
+    }
+
+
+    
     @RequestMapping( value = "add", method = RequestMethod.GET )
-    public String add( Model model ) {
+    public String latestHomeIp( Model model ) {
         model.addAttribute( "metric", new Metric() );
 
         return "/weight/metric/edit";
     }
 
+    
     @RequestMapping( value = "edit", method = RequestMethod.GET )
     public String edit( ModelMap model, @RequestParam( value = "metricId" ) Integer metricId ) {
 
