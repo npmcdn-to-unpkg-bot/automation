@@ -77,7 +77,7 @@ public class MetricResource extends AbstractWeightApiResource {
     
     @RequestMapping( value = {  "", "/"  }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
     public List<Metric> list() {
-    	 return weightDaoService.getMetricService().list();
+    	 return weightDaoService.getMetricService().listOrdered("dateAdded", "desc");
     }
 
 }
