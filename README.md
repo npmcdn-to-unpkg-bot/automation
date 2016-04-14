@@ -1,4 +1,4 @@
-# automation
+# Automation
 ===============================================
 
 ## Background
@@ -13,7 +13,7 @@ This application provides a user interface to a database to record my health mea
 
 The project requires:
  - [Jetty](http://eclispe.org/jetty)
- - JAVA >= 1.7 
+ - JAVA >= 1.8 
 
 This project is a maven project and should be built using:
 
@@ -41,7 +41,13 @@ The update [log4j.properties](src/main/resources/log4j.properties) to change loc
 
 ## REST Commands
 Post Activity
+
     curl -i -F name=test -F data=@localfile.csv http://localhost:8080/activity/record/
+
+Latest Ip Address
+
+     curl http://localhost:8080/automation/metric/homeip
+     
 
 # Project Details
 List the customer for whom this application was developed, at a minimum include names and email addresses.

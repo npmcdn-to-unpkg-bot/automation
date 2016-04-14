@@ -21,9 +21,20 @@ var app = angular.module('gridDisplay', ['ngResource', 'ui.grid','ui.grid.resize
 		console.log(${param.resourceName});
 	}); */
 	// define grid
-	$scope.gridModel = { enableFiltering: true, enableColumnResizing: true, showColumnFooter: true , showGridFooter: true, enableRowHeaderSelection: false};
+	$scope.gridModel = { 
+			enableFiltering: true, 
+			enableColumnResizing: true, 
+			showColumnFooter: true , 
+			showGridFooter: true, 
+			enableRowHeaderSelection: false
+			};
+	
 	// load data into Grid
 	$scope.gridModel.data = ResourceService.query();
+	
+	//$scope.gridModel.columnDefs = [
+	  //                              { field: 'startDate', displayName: 'Date', cellFilter: 'date:\'yyyy-MM-dd\'' }
+	   //                             ];
 	// update data inline
 	$scope.gridModel.onRegisterApi = function(gridApi){
         //set gridApi on scope

@@ -2,9 +2,6 @@
 
 <h2>Metrics</h2>
 
-<c:url value="/metric/add" var="addUrl" />
-<a href="${ addUrl }" class="btn btn-default">Add</a>
-
 <div id="error_div" class="alert alert-error" style="display: none;">
     <%-- div for showing errors, see messager.js.showMessage --%>
 </div>
