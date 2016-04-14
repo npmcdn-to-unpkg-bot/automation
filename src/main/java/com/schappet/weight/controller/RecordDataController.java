@@ -175,7 +175,7 @@ public class RecordDataController extends AbstractWeightController {
 	    	    String comments = record.get("Comments");
 	    	    Date dateTime = parseDate(date + " " + time);
 	    	    if (dateTime != null) {
-	    	    	v = weightDaoService.getVitalsService().findByPersonIdAndDate(DEFAULT_PERSON, dateTime);
+	    	    	v = weightDaoService.getVitalsService().findByPersonIdAndDate(defaultPerson, dateTime);
 		    	    if (v == null) {
 		    	    	v = new Vitals ();
 		    	    	try {

@@ -11,6 +11,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.schappet.weight.domain.Person;
 import com.schappet.weight.domain.Vitals;
 
 import edu.uiowa.icts.spring.GenericDao;
@@ -34,10 +35,10 @@ public class VitalsHome extends GenericDao<Vitals> implements VitalsService {
 	}
 
 	
-	public Vitals findByPersonIdAndDate( Integer id , Date date) {
+	public Vitals findByPersonIdAndDate( Person id , Date date) {
 		//vitalsDate
 		     Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Vitals.class);
-		     criteria.add(Restrictions.eq("personId", id));
+		     criteria.add(Restrictions.eq("person", id));
 		     criteria.add(Restrictions.eq("vitalsDate", date));
 		     //criteria.addOrder(Order.desc("activityDate"));
 		     criteria.setMaxResults(1);
@@ -47,10 +48,10 @@ public class VitalsHome extends GenericDao<Vitals> implements VitalsService {
 	}
 
 	@Override
-	public List<Vitals> latest(int personId, int count) {
+	public List<Vitals> latest(Person person, int count) {
 	
 	     Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Vitals.class);
-	     criteria.add(Restrictions.eq("personId", personId));
+	     criteria.add(Restrictions.eq("person", person));
 	     criteria.addOrder(Order.desc("vitalsDate"));
 	     criteria.setMaxResults(count < 50 ? count : 50);
 	     return criteria.list();

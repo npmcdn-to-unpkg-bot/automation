@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.schappet.web.C3Vitals;
+import com.schappet.weight.domain.Person;
 import com.schappet.weight.domain.SummaryVitals;
 import com.schappet.weight.domain.Vitals;
 
@@ -82,8 +83,10 @@ public class VitalsController extends AbstractWeightController {
     @ResponseBody
     public C3Vitals last30C3()
     {
+    
+    	Person defaultPerson = weightDaoService.getPersonService().findById(DEFAULT_PERSON);
     	
-    	List<Vitals> list = weightDaoService.getVitalsService().latest(DEFAULT_PERSON,30);
+    	List<Vitals> list = weightDaoService.getVitalsService().latest(defaultPerson,30);
     	
     	Map<String,Integer[]> tempMap = new HashMap<String, Integer[]>();
     	String date = "";
