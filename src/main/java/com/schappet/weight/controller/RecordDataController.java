@@ -200,7 +200,7 @@ public class RecordDataController extends AbstractWeightController {
 	    			weightDaoService.getVitalsService().save(batch);
     				batch.clear();
     			}
-	    	    //log.debug("date: " + date + " dia: " + dia);
+	    	    log.debug("date: " + date + " dia: " + dia);
 	    	}
 			weightDaoService.getVitalsService().save(batch);
 			log.debug("Done reading records");
