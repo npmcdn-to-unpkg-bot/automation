@@ -187,7 +187,7 @@ public class RecordDataController extends AbstractWeightController {
 				    	    v.setPerson(defaultPerson);
 				    	    batch.add(v);
 			    	    } catch (NumberFormatException nfe) {
-			    	    	//skip
+			    	    	log.error("NFE: "  + dateTime, nfe);
 			    	    }	
 		    	    } else {
 		    	    	log.debug("aready added: "  + dateTime);
