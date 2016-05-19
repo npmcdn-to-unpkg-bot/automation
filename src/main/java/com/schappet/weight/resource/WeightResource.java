@@ -76,7 +76,9 @@ public class WeightResource extends AbstractWeightApiResource {
     }
     
     @RequestMapping( value = {  "", "/"  }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
-    public List<Weight> list() {
+    public List<Weight> list(@RequestBody String body) {
+    	
+    	log.debug("String Body: " + body);
     	 return weightDaoService.getWeightService().list();
     }
 
