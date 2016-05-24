@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.NonUniqueObjectException;
+import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +36,8 @@ import edu.uiowa.icts.spring.GenericDaoListOptions;
 @RestController( value = "com_schappet_weight_resource_weight_resource" )
 @RequestMapping( "/rest/weight" )
 public class WeightResource extends AbstractWeightApiResource {
+
+    private static final int DEFAULT_PERSON = 1;
 
     private static final Log log = LogFactory.getLog( WeightResource.class );
     
@@ -75,11 +78,13 @@ public class WeightResource extends AbstractWeightApiResource {
 	     return "";
     }
     
-    @RequestMapping( value = {  "", "/"  }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
-    public List<Weight> list(@RequestBody String body) {
+    @RequestMapping( value = {  "", "/"  },
+    		method = RequestMethod.GET, 
+    		produces = MediaType.APPLICATION_JSON_VALUE )
+    public List<Weight> list(@RequestParam(value="last", required = false, defaultValue="100") Integer limit) {
     	
-    	log.debug("String Body: " + body);
-    	 return weightDaoService.getWeightService().list();
+    	Person defaultPerson = weightDaoService.getPersonService().findById(DEFAULT_PERSON);
+		return weightDaoService.getWeightService().latest(defaultPerson, limit);
     }
 
 }
