@@ -36,6 +36,9 @@ import edu.uiowa.icts.spring.GenericDaoListOptions;
 @RequestMapping( "/rest/vitals" )
 public class VitalsResource extends AbstractWeightApiResource {
 
+    private static final int DEFAULT_PERSON = 1;
+
+    
     private static final Log log = LogFactory.getLog( VitalsResource.class );
     
     @RequestMapping( value = { "{vitalsId}" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
@@ -76,8 +79,11 @@ public class VitalsResource extends AbstractWeightApiResource {
     }
     
     @RequestMapping( value = {  "", "/"  }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
-    public List<Vitals> list() {
-    	 return weightDaoService.getVitalsService().list();
+    public List<Vitals> list(@RequestParam(value="last", required = false, defaultValue="100") Integer limit) {
+    	Person defaultPerson = weightDaoService.getPersonService().findById(DEFAULT_PERSON);
+
+    	return weightDaoService.getVitalsService().latest(defaultPerson, limit);
+    	 //return weightDaoService.getVitalsService().list();
     }
 
 }
