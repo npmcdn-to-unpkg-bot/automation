@@ -23,7 +23,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.schappet.util.JsonDateDeserializer;
 import com.schappet.util.JsonDateSerializer;
 
 /** 
@@ -41,7 +43,9 @@ public class Vitals {
     private Integer vitalsId;
     @DateTimeFormat( pattern = "yyyy-MM-dd" )
     @JsonSerialize(using=JsonDateSerializer.class)
+    @JsonDeserialize(using=JsonDateDeserializer.class)
     private Date vitalsDate;
+    
     private Integer systolic;
     private Integer diatolic;
     private Integer pulse;
@@ -131,7 +135,11 @@ public class Vitals {
     
     @Transient
     public String getPersonName() {
-    	return person.getFullName();
+    	if (person != null ) {
+    		return person.getFullName();
+    	} else {
+    		return "";
+    	}
     }
 
 

@@ -51,7 +51,12 @@ public class VitalsResource extends AbstractWeightApiResource {
     }
     
     @RequestMapping( method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE  )
-    public Vitals create( @RequestBody @Valid Vitals vitals ) {
+    public Vitals create( 
+    		@RequestBody @Valid Vitals vitals ) {
+    	if (vitals.getPerson() == null) {
+    		vitals.setPerson(weightDaoService.getPersonService().findById(2));
+    	}
+    	log.error("PersonName: " +vitals.getPerson());
 		 weightDaoService.getVitalsService().save( vitals );
 		 return vitals;
     }
