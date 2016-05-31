@@ -54,7 +54,7 @@ public class VitalsResource extends AbstractWeightApiResource {
     public Vitals create( 
     		@RequestBody @Valid Vitals vitals ) {
     	if (vitals.getPerson() == null) {
-    		vitals.setPerson(weightDaoService.getPersonService().findById(2));
+    		vitals.setPerson(weightDaoService.getPersonService().findById(DEFAULT_PERSON));
     	}
     	log.error("PersonName: " +vitals.getPerson());
 		 weightDaoService.getVitalsService().save( vitals );

@@ -12,7 +12,7 @@
     <thead>
         <tr>
             <th>VitalsId</th>
-            <th>PersonId</th>
+            <th>Person</th>
             <th>VitalsDate</th>
             <th>Systolic</th>
             <th>Diatolic</th>
@@ -25,7 +25,7 @@
         <c:forEach items="${vitalsList}" var="vitals"  varStatus="status">
             <tr>
                 <td><a href="edit?vitalsId=${vitals.vitalsId}">${vitals.vitalsId}</a></td>
-                <td>${vitals.personId}</td>
+                <td>${vitals.personName}</td>
                 <td>${vitals.vitalsDate}</td>
                 <td>${vitals.systolic}</td>
                 <td>${vitals.diatolic}</td>
