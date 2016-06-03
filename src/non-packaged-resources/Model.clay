@@ -9,7 +9,7 @@
 <table-list>
 <table alias="" name="metric" remarks="" uid="1d5a2267:152e0f8c908:-7f36">
 <table-description/>
-<table-figure-bounds height="172" width="267" x="83" y="404"/>
+<table-figure-bounds height="172" width="267" x="35" y="459"/>
 <column-list>
 <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="true" name="metric_id" remarks="" uid="1d5a2267:152e0f8c908:-7f32">
 <column-description/>
@@ -64,7 +64,7 @@
 </table>
 <table alias="" name="activity" remarks="" uid="1d5a2267:152e0f8c908:-7ffe">
 <table-description/>
-<table-figure-bounds height="-1" width="-1" x="59" y="54"/>
+<table-figure-bounds height="-1" width="-1" x="691" y="188"/>
 <column-list>
 <column alias="" auto-increment="true" column-size="10" decimal-digits="0" default-value="" mandatory="true" name="activity_id" remarks="" uid="1d5a2267:152e0f8c908:-7ffc">
 <column-description/>
@@ -112,7 +112,7 @@
 </table>
 <table alias="" name="email_address" remarks="" uid="1d5a2267:152e0f8c908:-7ff8">
 <table-description/>
-<table-figure-bounds height="-1" width="-1" x="320" y="10"/>
+<table-figure-bounds height="-1" width="-1" x="35" y="23"/>
 <column-list>
 <column alias="" auto-increment="true" column-size="10" decimal-digits="0" default-value="" mandatory="true" name="email_id" remarks="" uid="1d5a2267:152e0f8c908:-7ff6">
 <column-description/>
@@ -143,7 +143,7 @@
 </table>
 <table alias="" name="person" remarks="" uid="1d5a2267:152e0f8c908:-7fed">
 <table-description/>
-<table-figure-bounds height="-1" width="-1" x="385" y="164"/>
+<table-figure-bounds height="-1" width="-1" x="279" y="226"/>
 <column-list>
 <column alias="" auto-increment="true" column-size="10" decimal-digits="0" default-value="" mandatory="true" name="person_id" remarks="" uid="1d5a2267:152e0f8c908:-7feb">
 <column-description/>
@@ -205,7 +205,7 @@
 </table>
 <table alias="" name="vitals" remarks="" uid="1d5a2267:152e0f8c908:-7fe4">
 <table-description/>
-<table-figure-bounds height="-1" width="-1" x="664" y="121"/>
+<table-figure-bounds height="-1" width="-1" x="506" y="363"/>
 <column-list>
 <column alias="" auto-increment="true" column-size="10" decimal-digits="0" default-value="" mandatory="true" name="vitals_id" remarks="" uid="1d5a2267:152e0f8c908:-7fe2">
 <column-description/>
@@ -271,7 +271,7 @@
 </table>
 <table alias="" name="weight" remarks="" uid="1d5a2267:152e0f8c908:-7fdb">
 <table-description/>
-<table-figure-bounds height="-1" width="-1" x="43" y="260"/>
+<table-figure-bounds height="-1" width="-1" x="683" y="314"/>
 <column-list>
 <column alias="" auto-increment="true" column-size="10" decimal-digits="0" default-value="" mandatory="true" name="weight_id" remarks="" uid="1d5a2267:152e0f8c908:-7fd9">
 <column-description/>
@@ -308,6 +308,55 @@
 <unique-key-list/>
 <foreign-key-list>
 <foreign-key alias="" name="FK_weight_1" on-delete="" on-update="" referenced-key="PK_PERSON_PRIMARY" referenced-table="person" referenced-table-schema="weight" remarks="" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="" uid="1d5a2267:152e0f8c908:-7fba">
+<foreign-key-description/>
+<foreign-key-figure>
+<fk-fig-bendpoint-list/>
+</foreign-key-figure>
+<foreign-key-column column-name="person_id" referenced-key-column-name="person_id"/>
+</foreign-key>
+</foreign-key-list>
+<index-list/>
+</table>
+<table alias="" name="heart_rate" remarks="" uid="b45f29:1551611473f:-7ff8">
+<table-description/>
+<table-figure-bounds height="111" width="173" x="501" y="79"/>
+<column-list>
+<column alias="" auto-increment="true" column-size="0" decimal-digits="0" default-value="" mandatory="true" name="heart_rate_id" remarks="" uid="b45f29:1551611473f:-7ff6">
+<column-description/>
+<data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+<variant type-name-pattern="INT"/>
+</data-type>
+</column>
+<column alias="" auto-increment="false" column-size="10" decimal-digits="0" default-value="" mandatory="true" name="person_id" remarks="" uid="b45f29:1551611473f:-7ff5">
+<column-description/>
+<data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+<variant type-name-pattern="INT"/>
+</data-type>
+</column>
+<column alias="" auto-increment="false" column-size="20" decimal-digits="0" default-value="" mandatory="true" name="value" remarks="" uid="b45f29:1551611473f:-7ff4">
+<column-description/>
+<data-type jdbc-type="12" literal-prefix="'" literal-suffix="'" name="VARCHAR" selected-variant-pattern="VARCHAR(%n)">
+<variant precision-max="2147483647" precision-min="1" precision-variable="%n" type-name-pattern="VARCHAR(%n)"/>
+</data-type>
+</column>
+<column alias="" auto-increment="false" column-size="19" decimal-digits="0" default-value="" mandatory="false" name="measure_date" remarks="" uid="b45f29:1551611473f:-7ff3">
+<column-description/>
+<data-type jdbc-type="93" name="TIMESTAMP" selected-variant-pattern="TIMESTAMP(%p)">
+<variant type-name-pattern="TIMESTAMP"/>
+<variant precision-max="9" precision-min="1" precision-variable="%p" type-name-pattern="TIMESTAMP(%p)"/>
+<variant type-name-pattern="TIMESTAMP WITH TIME ZONE"/>
+<variant precision-max="9" precision-min="1" precision-variable="%p" type-name-pattern="TIMESTAMP(%p) WITH TIME ZONE"/>
+<variant precision-max="9" precision-min="1" precision-variable="%p" type-name-pattern="TIMESTAMP(%p) WITHOUT TIME ZONE"/>
+</data-type>
+</column>
+</column-list>
+<primary-key alias="" name="PK_WEIGHT_PRIMARY" remarks="" uid="b45f29:1551611473f:-7ff2">
+<primary-key-description/>
+<primary-key-column name="heart_rate_id"/>
+</primary-key>
+<unique-key-list/>
+<foreign-key-list>
+<foreign-key alias="" name="FK_weight_1_1" on-delete="" on-update="" referenced-key="PK_PERSON_PRIMARY" referenced-table="person" referenced-table-schema="weight" remarks="" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="" uid="b45f29:1551611473f:-7fec">
 <foreign-key-description/>
 <foreign-key-figure>
 <fk-fig-bendpoint-list/>

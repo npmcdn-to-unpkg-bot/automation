@@ -70,4 +70,11 @@ public class WeightDaoService {
         return weightService;
     }
 
+	@Autowired
+	private HeartRateService heartRateService;
+
+    public HeartRateService getHeartRateService() {
+        return heartRateService;
+    }
+
 }
