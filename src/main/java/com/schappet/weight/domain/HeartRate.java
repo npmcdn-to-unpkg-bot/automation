@@ -89,6 +89,7 @@ public class HeartRate {
         }
     }
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY,  targetEntity=Person.class )
     @JoinColumn(name = "person_id",nullable = true)
     public Person getPerson(){
