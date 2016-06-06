@@ -42,20 +42,18 @@ order by person_id,
 	
 create or replace view summary_vitals  as  
 
- select   floor((rand() * 500)) AS `id`,    `vitals`.`person_id` AS `person_id`, 
-   date_format(`vitals`.`vitals_date`,'%Y-%m') AS `month_year`, 
-     avg(`vitals`.`systolic` + 0 ) AS `avg_systolic`,  
-     min(`vitals`.`systolic` + 0) AS `min_systolic`, 
-     max(`vitals`.`systolic` + 0) AS `max_systolic`,
-
-     avg(`vitals`.`diatolic` + 0 ) AS `avg_diatolic`,  
-     min(`vitals`.`diatolic` + 0) AS `min_diatolic`, 
-     max(`vitals`.`diatolic` + 0) AS `max_diatolic`,
-
-     avg(`vitals`.`pulse` + 0 ) AS `avg_pulse`,  
-     min(`vitals`.`pulse` + 0) AS `min_pulse`, 
-     max(`vitals`.`pulse` + 0) AS `max_pulse`
-
-
-  from `vitals`   
-  group by    `vitals`.`person_id`,   date_format(`vitals`.`vitals_date`,'%Y-%m');
+ select   floor((rand() * 500)) AS `id`, `vitals`.`person_id` AS `person_id`,
+ date_format(`vitals`.`vitals_date`,'%Y-%m') AS `month_year`,
+ avg(`vitals`.`systolic` + 0 ) AS `avg_systolic`,
+ min(`vitals`.`systolic` + 0) AS `min_systolic`,
+ max(`vitals`.`systolic` + 0) AS `max_systolic`,
+ avg(`vitals`.`diatolic` + 0 ) AS `avg_diatolic`,
+ min(`vitals`.`diatolic` + 0) AS `min_diatolic`,
+ max(`vitals`.`diatolic` + 0) AS `max_diatolic`,
+ avg(`heart_rate`.`value` + 0 ) AS `avg_pulse`,
+ min(`heart_rate`.`value` + 0) AS `min_pulse`,
+ max(`heart_rate`.`value` + 0) AS `max_pulse`     
+ from `vitals` left outer join `heart_rate` on `vitals`.`vitals_date` = `heart_rate`.`measure_date`       
+ group by    `vitals`.`person_id`,   date_format(`vitals`.`vitals_date`,'%Y-%m') 
+ order by  date_format(`vitals`.`vitals_date`,'%Y-%m');
+ 
