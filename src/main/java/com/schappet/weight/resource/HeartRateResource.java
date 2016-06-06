@@ -52,6 +52,12 @@ public class HeartRateResource extends AbstractWeightApiResource {
     
     @RequestMapping( method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE  )
     public HeartRate create( @RequestBody @Valid HeartRate heartRate ) {
+    	
+     	if (heartRate.getPerson() == null) {
+     		heartRate.setPerson(weightDaoService.getPersonService().findById(DEFAULT_PERSON));
+    	}
+    	log.error("PersonName: " +heartRate.getPerson());
+    	
 		 weightDaoService.getHeartRateService().save( heartRate );
 		 return heartRate;
     }
