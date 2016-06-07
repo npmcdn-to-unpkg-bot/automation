@@ -14,6 +14,7 @@
 		<li><a class="list-group-item" href="<c:url value="/person/" />" >Person List</a></li>
 		<li><a class="list-group-item" href="<c:url value="/weight/" />" >Weight List</a></li>
 		<li><a class="list-group-item" href="<c:url value="/vitals/" />" >Vitals List</a></li>
+		<li><a class="list-group-item" href="<c:url value="/heartrate/" />" >Heart Rate List</a></li>
 		<li><a class="list-group-item" href="<c:url value="/metric/" />" >Metrics List</a></li>
 	
 	</sec:authorize>
