@@ -40,7 +40,7 @@ order by person_id,
 	
 	
 	
-create or replace view summary_vitals  as  
+create or replace view summary_vitals_tmp  as  
 
  select   floor((rand() * 500)) AS `id`, `vitals`.`person_id` AS `person_id`,
  date_format(`vitals`.`vitals_date`,'%Y-%m') AS `month_year`,
@@ -56,4 +56,31 @@ create or replace view summary_vitals  as
  from `vitals` left outer join `heart_rate` on `vitals`.`vitals_date` = `heart_rate`.`measure_date`       
  group by    `vitals`.`person_id`,   date_format(`vitals`.`vitals_date`,'%Y-%m') 
  order by  date_format(`vitals`.`vitals_date`,'%Y-%m');
+
+ select * from summary_vitals left outer join sumamry_heart_rate 
+ where summary_vitals.month_year = sumamry_heart_rate.month_year 
+ 
+create or replace view summary_vitals  as  
+select summary_vitals_tmp.month_year, floor((rand() * 500)) AS `id`,
+`summary_vitals_tmp`.`person_id`, 
+ avg_systolic, min_systolic, max_systolic, 
+ min_diatolic, avg_diatolic, max_diatolic, 
+ summary_heart_rate.avg_pulse, 
+ summary_heart_rate.max_pulse, 
+ summary_heart_rate.min_pulse 
+ from summary_vitals_tmp 
+ 	left outer join summary_heart_rate   on summary_vitals_tmp.month_year = summary_heart_rate.month_year 
+order by summary_vitals_tmp.month_year ;
+ 
+ 
+ 
+create or replace view summary_heart_rate  as   
+ select   floor((rand() * 500)) AS `id`, `heart_rate`.`person_id` AS `person_id`,
+  date_format(`heart_rate`.`measure_date`,'%Y-%m') AS `month_year`,
+ avg(`heart_rate`.`value` + 0 ) AS `avg_pulse`,
+ min(`heart_rate`.`value` + 0) AS `min_pulse`,
+ max(`heart_rate`.`value` + 0) AS `max_pulse`     
+ from  `heart_rate`        
+ group by    `heart_rate`.`person_id`,   date_format(`heart_rate`.`measure_date`,'%Y-%m') 
+ order by  date_format(`heart_rate`.`measure_date`,'%Y-%m');
  
