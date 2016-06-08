@@ -205,7 +205,7 @@
 </table>
 <table alias="" name="vitals" remarks="" uid="1d5a2267:152e0f8c908:-7fe4">
 <table-description/>
-<table-figure-bounds height="-1" width="-1" x="506" y="363"/>
+<table-figure-bounds height="-1" width="-1" x="397" y="453"/>
 <column-list>
 <column alias="" auto-increment="true" column-size="10" decimal-digits="0" default-value="" mandatory="true" name="vitals_id" remarks="" uid="1d5a2267:152e0f8c908:-7fe2">
 <column-description/>
@@ -342,8 +342,8 @@
 <column alias="" auto-increment="false" column-size="19" decimal-digits="0" default-value="" mandatory="false" name="measure_date" remarks="" uid="b45f29:1551611473f:-7ff3">
 <column-description/>
 <data-type jdbc-type="93" name="TIMESTAMP" selected-variant-pattern="TIMESTAMP(%p)">
-<variant type-name-pattern="TIMESTAMP"/>
 <variant precision-max="9" precision-min="1" precision-variable="%p" type-name-pattern="TIMESTAMP(%p)"/>
+<variant type-name-pattern="TIMESTAMP"/>
 <variant type-name-pattern="TIMESTAMP WITH TIME ZONE"/>
 <variant precision-max="9" precision-min="1" precision-variable="%p" type-name-pattern="TIMESTAMP(%p) WITH TIME ZONE"/>
 <variant precision-max="9" precision-min="1" precision-variable="%p" type-name-pattern="TIMESTAMP(%p) WITHOUT TIME ZONE"/>
@@ -357,6 +357,65 @@
 <unique-key-list/>
 <foreign-key-list>
 <foreign-key alias="" name="FK_weight_1_1" on-delete="" on-update="" referenced-key="PK_PERSON_PRIMARY" referenced-table="person" referenced-table-schema="weight" remarks="" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="" uid="b45f29:1551611473f:-7fec">
+<foreign-key-description/>
+<foreign-key-figure>
+<fk-fig-bendpoint-list/>
+</foreign-key-figure>
+<foreign-key-column column-name="person_id" referenced-key-column-name="person_id"/>
+</foreign-key>
+</foreign-key-list>
+<index-list/>
+</table>
+<table alias="" name="step_count" remarks="" uid="c8864f2:1553040320f:-7ff9">
+<table-description/>
+<table-figure-bounds height="-1" width="-1" x="606" y="427"/>
+<column-list>
+<column alias="" auto-increment="true" column-size="0" decimal-digits="0" default-value="" mandatory="true" name="id" remarks="" uid="c8864f2:1553040320f:-7ff7">
+<column-description/>
+<data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+<variant type-name-pattern="INT"/>
+</data-type>
+</column>
+<column alias="" auto-increment="false" column-size="10" decimal-digits="0" default-value="" mandatory="true" name="person_id" remarks="" uid="c8864f2:1553040320f:-7ff6">
+<column-description/>
+<data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+<variant type-name-pattern="INT"/>
+</data-type>
+</column>
+<column alias="" auto-increment="false" column-size="20" decimal-digits="0" default-value="" mandatory="true" name="value" remarks="" uid="c8864f2:1553040320f:-7ff5">
+<column-description/>
+<data-type jdbc-type="12" literal-prefix="'" literal-suffix="'" name="VARCHAR" selected-variant-pattern="VARCHAR(%n)">
+<variant precision-max="2147483647" precision-min="1" precision-variable="%n" type-name-pattern="VARCHAR(%n)"/>
+</data-type>
+</column>
+<column alias="" auto-increment="false" column-size="19" decimal-digits="0" default-value="" mandatory="false" name="measure_start_date" remarks="" uid="c8864f2:1553040320f:-7ff4">
+<column-description/>
+<data-type jdbc-type="93" name="TIMESTAMP" selected-variant-pattern="TIMESTAMP(%p)">
+<variant type-name-pattern="TIMESTAMP"/>
+<variant precision-max="9" precision-min="1" precision-variable="%p" type-name-pattern="TIMESTAMP(%p)"/>
+<variant type-name-pattern="TIMESTAMP WITH TIME ZONE"/>
+<variant precision-max="9" precision-min="1" precision-variable="%p" type-name-pattern="TIMESTAMP(%p) WITH TIME ZONE"/>
+<variant precision-max="9" precision-min="1" precision-variable="%p" type-name-pattern="TIMESTAMP(%p) WITHOUT TIME ZONE"/>
+</data-type>
+</column>
+<column alias="" auto-increment="false" column-size="19" decimal-digits="0" default-value="" mandatory="false" name="measure_end_date" remarks="" uid="c8864f2:1553040320f:-7fac">
+<column-description/>
+<data-type jdbc-type="93" name="TIMESTAMP" selected-variant-pattern="TIMESTAMP(%p)">
+<variant type-name-pattern="TIMESTAMP"/>
+<variant precision-max="9" precision-min="1" precision-variable="%p" type-name-pattern="TIMESTAMP(%p)"/>
+<variant type-name-pattern="TIMESTAMP WITH TIME ZONE"/>
+<variant precision-max="9" precision-min="1" precision-variable="%p" type-name-pattern="TIMESTAMP(%p) WITH TIME ZONE"/>
+<variant precision-max="9" precision-min="1" precision-variable="%p" type-name-pattern="TIMESTAMP(%p) WITHOUT TIME ZONE"/>
+</data-type>
+</column>
+</column-list>
+<primary-key alias="" name="PK_ACTIVITY_PRIMARY" remarks="" uid="c8864f2:1553040320f:-7ff3">
+<primary-key-description/>
+<primary-key-column name="id"/>
+</primary-key>
+<unique-key-list/>
+<foreign-key-list>
+<foreign-key alias="" name="FK_activity_1_1" on-delete="" on-update="" referenced-key="PK_PERSON_PRIMARY" referenced-table="person" referenced-table-schema="weight" remarks="" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="" uid="c8864f2:1553040320f:-7fe1">
 <foreign-key-description/>
 <foreign-key-figure>
 <fk-fig-bendpoint-list/>

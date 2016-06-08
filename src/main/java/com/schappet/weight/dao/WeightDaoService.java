@@ -77,4 +77,11 @@ public class WeightDaoService {
         return heartRateService;
     }
 
+
+	@Autowired
+	private StepCountService stepCountService;
+
+    public StepCountService getStepCountService() {
+        return stepCountService;
+    }
 }
